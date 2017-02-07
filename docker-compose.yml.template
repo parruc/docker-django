@@ -1,0 +1,35 @@
+version: '2'
+services:
+  db:
+    image: mariadb:latest
+    volumes:
+      - "./db:/var/lib/mysql"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: {{dbrootpassword}}
+      MYSQL_DATABASE: {{dbname}}
+      MYSQL_USER: {{dbuser}}
+      MYSQL_PASSWORD: {{dbpassword}}
+
+  django:
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: django.dockerfile
+    image: python:3.6
+    volumes:
+      - ./project:/project
+      - ./settings.py:/project/{{projectname}}/settings.py
+    restart: always
+
+  web:
+    depends_on:
+      - django
+    image: nginx:latest
+    ports:
+      - "127.0.0.1:{{port}}:80"
+    volumes:
+      - ./static:/static
+      - ./nginx.internal.conf:/etc/nginx/conf.d/default.conf
+    restart: always

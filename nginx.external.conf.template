@@ -1,0 +1,62 @@
+# This adds security headers
+#add_header X-Frame-Options "SAMEORIGIN";
+add_header Strict-Transport-Security "max-age=15768000; includeSubDomains";
+add_header X-XSS-Protection "1; mode=block";
+add_header X-Content-Type-Options "nosniff";
+
+
+# Redirect all www-less traffic to the www.site.com domain
+# (you could also do the opposite www -> non-www domain)
+
+
+{% if certificatespath %}
+
+server {
+    listen 80;
+    server_name {{ hostname }} www.{{hostname}};
+    return 301 https://{{hostname}}$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name www.{{hostname}};
+    rewrite ^/(.*) https://{{hostname}}/$1 permanent;
+}
+
+server {
+        listen 443 ssl;
+
+        ssl_certificate {{ certificatespath }}/fullchain.pem;
+        ssl_certificate_key {{ certificatespath }}/privkey.pem;
+
+#        ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+        ssl_prefer_server_ciphers on;
+        ssl_session_cache shared:SSL:10m;
+#        ssl_dhparam /etc/ssl/private/dhparams_4096.pem;
+
+{% else %}
+
+server {
+    listen 80;
+    server_name www.{{hostname}};
+    rewrite ^/(.*) http://{{hostname}}/$1 permanent;
+}
+
+server {
+    listen 80;
+
+{% endif %}
+
+    add_header Content-Security-Policy "{{ contentsecuritypolicy }}";
+    server_name {{hostname}};
+    access_log /var/log/nginx/{{hostname}}.access.log;
+    error_log /var/log/nginx/{{hostname}}.error.log;
+    client_max_body_size 20M;
+
+    location / {
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   Host      $http_host;
+        proxy_pass         http://localhost:{{ port }};
+    }
+}
