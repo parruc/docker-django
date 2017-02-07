@@ -1,0 +1,17 @@
+.config
+letsencrypt.log
+nginx.external.conf
+nginx.internal.conf
+docker-compose.yml
+certbot-auto
+certbot.log
+pip-selfcheck.json
+settings.py
+db/
+project/
+static/
+bin/
+include/
+lib/
+local/
+share/
