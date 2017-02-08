@@ -93,7 +93,11 @@ parser.add_argument('-dbrp', '--dbrootpassword', help='Database root password',
                     required=False, default=defaults.get("dbrootpassword",
                                                          get_random_string()))
 parser.add_argument('-pn', '--projectname', help='Name of the project',
-                    required=False, default=defaults.get("projectname"))
+                    required=False, default=defaults.get("projectname",
+                                                         "project"))
+parser.add_argument('-dv', '--djangoversion', help='django version',
+                    required=False, default=defaults.get("djangoversion",
+                                                         '1.10.5'))
 parser.add_argument('-rw', '--rewrite',
                     help="Use this parameter if your website uses url rewrite",
                     default=defaults.get("rewrite", False),
@@ -110,7 +114,8 @@ if args.verbose:
 base_path = os.path.dirname(os.path.realpath(__file__))
 for file in ["docker-compose.yml",
              "nginx.external.conf",
-             "nginx.internal.conf"]:
+             "nginx.internal.conf",
+             "django.dockerfile"]:
     file_path = os.path.join(base_path, file)
     replace_words_in_file(file_path, args_dict)
     if file == "nginx.external.conf":

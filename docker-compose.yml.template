@@ -18,9 +18,12 @@ services:
       context: .
       dockerfile: django.dockerfile
     image: python:3.6
+    command: /bin/sh
     volumes:
       - ./project:/project
-      - ./settings.py:/project/{{projectname}}/settings.py
+      - ./settings.db.py:/project/{{projectname}}/settings.db.py
+    environment:
+        TERM: /bin/sh
     restart: always
 
   web:
