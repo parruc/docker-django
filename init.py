@@ -30,7 +30,7 @@ def get_random_string(size=32, chars=password_chars):
 
 
 def replace_words_in_file(file, values):
-    input_file_path = file + ".template"
+    input_file_path = file + ".jinja2"
     input_text = ""
     with open(input_file_path, "r") as input_file:
         input_text = input_file.read()
@@ -98,6 +98,9 @@ parser.add_argument('-pn', '--projectname', help='Name of the project',
 parser.add_argument('-dv', '--djangoversion', help='django version',
                     required=False, default=defaults.get("djangoversion",
                                                          '1.10.5'))
+parser.add_argument('-ul', '--uploadlimit', help='max MB uplodable',
+                    required=False,
+                    default=defaults.get("uploadlimit", '2'))
 parser.add_argument('-rw', '--rewrite',
                     help="Use this parameter if your website uses url rewrite",
                     default=defaults.get("rewrite", False),
@@ -115,7 +118,9 @@ base_path = os.path.dirname(os.path.realpath(__file__))
 for file in ["docker-compose.yml",
              "nginx.external.conf",
              "nginx.internal.conf",
-             "django.dockerfile"]:
+             "django.dockerfile",
+             "basesettings.py",
+             "uwsgi.ini", ]:
     file_path = os.path.join(base_path, file)
     replace_words_in_file(file_path, args_dict)
     if file == "nginx.external.conf":

@@ -1,0 +1,13 @@
+ALLOWED_HOSTS = ["{{hostname}}", ]
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': '{{dbname}}',
+        'USER': '{{dbuser}}',
+        'PASSWORD': '{{dbpassword}}',
+        'HOST': 'db',
+        'PORT': '3306',
+        'OPTIONS': {'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"},
+    }
+}
