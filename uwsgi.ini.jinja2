@@ -15,6 +15,9 @@ vacuum=True
 # harakiri=30
 uid = www-data
 gid = www-data
+{% if development %}
+    python-autoreload = 1
+{% endif %}
 # path to log file
 # daemonize=/home/project/log
 # this is where you need to point nginx to,

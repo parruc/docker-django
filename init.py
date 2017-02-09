@@ -109,6 +109,11 @@ parser.add_argument('-v', '--verbose',
                     help="Use this parameter to see verbose output",
                     default=defaults.get("verbose", False),
                     action='store_true')
+parser.add_argument('-dev', '--development',
+                    help="Use this parameter to see development to true",
+                    default=defaults.get("development", False),
+                    action='store_true')
+
 args = parser.parse_args()
 args_dict = vars(args)
 if args.verbose:
