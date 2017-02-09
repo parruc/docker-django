@@ -17,12 +17,12 @@ services:
     build:
       context: .
       dockerfile: django.dockerfile
-    entrypoint: uwsgi --ini /project/{{projectname}}/{{projectname}}/uwsgi.ini
+    entrypoint: /project/django_entrypoint.sh
     volumes:
       - ./project:/project
       - ./static:/static
-#      - ./django_entrypoint.sh:/project/django_entrypoint.sh
-      - ./uwsgi.ini:/project/{{projectname}}/{{projectname}}/uwsgi.ini
+      - ./django_entrypoint.sh:/project/django_entrypoint.sh
+      - ./uwsgi.ini:/project/uwsgi.ini
       - ./basesettings.py:/project/{{projectname}}/{{projectname}}/basesettings.py
     restart: always
 

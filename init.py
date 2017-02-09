@@ -9,6 +9,7 @@ import json
 import logging
 import os
 import random
+import stat
 import string
 
 
@@ -125,11 +126,15 @@ for file in ["docker-compose.yml",
              "nginx.internal.conf",
              "django.dockerfile",
              "basesettings.py",
-             "uwsgi.ini", ]:
+             "uwsgi.ini",
+             "django_entrypoint.sh"]:
     file_path = os.path.join(base_path, file)
     replace_words_in_file(file_path, args_dict)
     if file == "nginx.external.conf":
         create_nginx_links(file_path, args.hostname)
+    if file == "django_entrypoint.sh":
+        st = os.stat(file)
+        os.chmod(file, st.st_mode | stat.S_IEXEC)
 
 # show values #
 logger.info("Generated configuration with:")
