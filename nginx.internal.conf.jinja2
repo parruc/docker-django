@@ -1,23 +1,23 @@
 server {
     listen 80;
-    index index.php index.html;
     server_name localhost;
     error_log  /var/log/nginx/error.log;
     access_log /var/log/nginx/access.log;
-    root /var/www;
     client_max_body_size {{ uploadlimit }}m;
-    try_files $uri $uri/ @django;
+    root /var/www/;
 
-    location \.mp4$$ {
-        mp4;
-        expires 15d;
-    }
-    location  \.(m4s|ts|jpg|jpeg|png|gif|ico|css|js)$$ {
-        expires 15d;
+    location /static/ {
+        location ~ \.mp4$$ {
+            mp4;
+            expires 15d;
+        }
+        location ~ \.(m4s|ts|jpg|jpeg|png|gif|ico|css|js)$$ {
+            expires 15d;
+        }
     }
 
     # Finally, send all non-media requests to the Django server.
-    location @django {
+    location / {
         {% if certificatespath %}
 #            uwsgi_param HTTPS $env_https;
         {% endif %}

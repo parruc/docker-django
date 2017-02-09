@@ -17,11 +17,10 @@ services:
     build:
       context: .
       dockerfile: django.dockerfile
-    image: python:3.6
-    command: uwsgi --ini /project/{{projectname}}/{{projectname}}/uwsgi.ini
+    entrypoint: uwsgi --ini /project/{{projectname}}/{{projectname}}/uwsgi.ini
     volumes:
       - ./project:/project
-      - ./static:/var/www/static
+      - ./static:/static
 #      - ./django_entrypoint.sh:/project/django_entrypoint.sh
       - ./uwsgi.ini:/project/{{projectname}}/{{projectname}}/uwsgi.ini
       - ./basesettings.py:/project/{{projectname}}/{{projectname}}/basesettings.py
