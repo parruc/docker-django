@@ -20,7 +20,7 @@ services:
     entrypoint: /project/django_entrypoint.sh
     volumes:
       - ./project:/project
-      - ./static:/static
+      - ./static:/var/www/static
       - ./django_entrypoint.sh:/project/django_entrypoint.sh
       - ./uwsgi.ini:/project/uwsgi.ini
       - ./basesettings.py:/project/{{projectname}}/{{projectname}}/basesettings.py
