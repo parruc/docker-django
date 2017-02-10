@@ -3,4 +3,4 @@ cd /project/{{projectname}}/ &&\
 python manage.py collectstatic --noinput &&\
 python manage.py makemigrations &&\
 python manage.py migrate &&\
-uwsgi --ini /project/uwsgi.ini
+exec uwsgi --ini /project/uwsgi.ini
