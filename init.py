@@ -99,6 +99,9 @@ parser.add_argument('-pn', '--projectname', help='Name of the project',
 parser.add_argument('-dv', '--djangoversion', help='django version',
                     required=False, default=defaults.get("djangoversion",
                                                          ''))
+parser.add_argument('-sc', '--secretkey', help='django project secret key',
+                    required=False, default=defaults.get("secretkey",
+                                                         get_random_string(50)))
 parser.add_argument('-ul', '--uploadlimit', help='max MB uplodable',
                     required=False,
                     default=defaults.get("uploadlimit", '2'))
