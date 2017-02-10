@@ -98,7 +98,7 @@ parser.add_argument('-pn', '--projectname', help='Name of the project',
                                                          "project"))
 parser.add_argument('-dv', '--djangoversion', help='django version',
                     required=False, default=defaults.get("djangoversion",
-                                                         '1.10.5'))
+                                                         ''))
 parser.add_argument('-ul', '--uploadlimit', help='max MB uplodable',
                     required=False,
                     default=defaults.get("uploadlimit", '2'))
