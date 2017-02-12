@@ -16,6 +16,7 @@ vacuum=True
 uid = www-data
 gid = www-data
 {% if development %}
+    reload-on-exception
     python-autoreload = 1
 {% endif %}
 # path to log file
