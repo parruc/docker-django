@@ -67,7 +67,8 @@ try:
 except:
     defaults = {}
 
-parser = argparse.ArgumentParser(description='Docker lemp stack configurator.')
+parser = argparse.ArgumentParser(description='Docker mariadb django nginx \
+                                              stack configurator.')
 parser.add_argument('-hn', '--hostname', help='Host name',
                     default=defaults.get("hostname", "example.com"),
                     required=False)
