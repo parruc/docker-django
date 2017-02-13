@@ -1,28 +1,25 @@
 [uwsgi]
 # path to where you put your project code
 chdir=/project/{{projectname}}
-
 # python path to the wsgi module, check if you have one
 module={{projectname}}.wsgi:application
-
+uid=www-data
+gid=www-data
 # this switch tells uwsgi to spawn a master process,
 # that will dynamically spawn new child processes for
 # server requests
-master=True
+master = true
 # uwsgi stores the pid of your master process here
 pidfile=/project/uwsgi.pid
-vacuum=True
-# harakiri=30
-uid = www-data
-gid = www-data
-{% if development %}
-    reload-on-exception
-    python-autoreload = 1
-{% endif %}
-# path to log file
-# daemonize=/home/project/log
+vacuum=true
+harakiri=30
 # this is where you need to point nginx to,
 # if you chose to put this in project home make
 # sure the home dir is readable and executable by
 # nginx
 socket=:8000
+reload-on-exception=true
+{% if development %}
+python-autoreload=1
+honour-stdin=true
+{% endif %}

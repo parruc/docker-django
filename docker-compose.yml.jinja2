@@ -25,6 +25,10 @@ services:
       - ./uwsgi.ini:/project/uwsgi.ini
       - ./basesettings.py:/project/{{projectname}}/{{projectname}}/basesettings.py
     restart: always
+{% if development %}
+    stdin_open: true
+    tty: true
+{% endif %}
 
   web:
     depends_on:
