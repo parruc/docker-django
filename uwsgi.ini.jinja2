@@ -12,7 +12,6 @@ master = true
 # uwsgi stores the pid of your master process here
 pidfile=/project/uwsgi.pid
 vacuum=true
-harakiri=30
 # this is where you need to point nginx to,
 # if you chose to put this in project home make
 # sure the home dir is readable and executable by
@@ -22,4 +21,6 @@ reload-on-exception=true
 {% if development %}
 python-autoreload=1
 honour-stdin=true
+{% else %}
+harakiri=30
 {% endif %}
