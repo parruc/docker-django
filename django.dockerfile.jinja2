@@ -1,5 +1,5 @@
 FROM python:3.6
-RUN pip install mysqlclient "Django{{djangoversion}}" uwsgi django-material django_compressor lessc django-allauth
+RUN pip install psycopg2 "Django{{djangoversion}}" uwsgi django-material django_compressor lessc django-allauth
 {% if development %}
 RUN pip install django-debug-toolbar ipdb
 {% endif %}

@@ -91,9 +91,6 @@ parser.add_argument('-dbu', '--dbuser', help='Database user', required=False,
 parser.add_argument('-dbp', '--dbpassword', help='Database password',
                     required=False,
                     default=defaults.get("dbpassword", get_random_string()))
-parser.add_argument('-dbrp', '--dbrootpassword', help='Database root password',
-                    required=False, default=defaults.get("dbrootpassword",
-                                                         get_random_string()))
 parser.add_argument('-pn', '--projectname', help='Name of the project',
                     required=False, default=defaults.get("projectname",
                                                          "project"))
@@ -147,7 +144,6 @@ logger.info("http port: %s", args.port)
 logger.info("Database name: %s", args.dbname)
 logger.info("Database user: %s", args.dbuser)
 logger.info("Database password: %s", args.dbpassword)
-logger.info("Database root password: %s", args.dbrootpassword)
 logger.info("Rewrite is %s", (args.rewrite and "active" or "not acrive", ))
 if args.certificatespath:
     logger.info("Certificate path is %s", (args.certificatespath, ))

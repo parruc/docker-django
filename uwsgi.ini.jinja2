@@ -9,6 +9,7 @@ gid=www-data
 # that will dynamically spawn new child processes for
 # server requests
 master = true
+workers = 8
 # uwsgi stores the pid of your master process here
 pidfile=/project/uwsgi.pid
 vacuum=true
