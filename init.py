@@ -128,7 +128,8 @@ for file in ["docker-compose.yml",
              "django.dockerfile",
              "basesettings.py",
              "uwsgi.ini",
-             "django_entrypoint.sh"]:
+             "django_entrypoint.sh",
+             "backup-cron.sh",]:
     file_path = os.path.join(base_path, file)
     replace_words_in_file(file_path, args_dict)
     if file == "nginx.external.conf":
