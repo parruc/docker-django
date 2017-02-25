@@ -1,0 +1,11 @@
+mkdir /backups/{{ projectname }} -p
+docker-compose run --rm --name {{ projectname }}_db_backup db bash -c 'pg_dump --dbname=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@db:5432/$POSTGRES_NAME > /var/lib/postgresql/dump.sql'
+mv db/dump.sql /backups/{{ projectname }}/
+cp static /backups/{{ projectname }}/static -R
+cp .config /backups/{{ projectname }}/
+cd /backups
+git add {{ projectname }}
+git commit -m "backup {{ projectname }}" {{ projectname }}
+git push -u origin master
+cd /
+rm -Rf /backups/{{ projectname }}
