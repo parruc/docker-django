@@ -1,5 +1,6 @@
 #!/bin/bash
 cd /project/{{projectname}}/ &&\
+chown www-data:www-data /var/www/static -R
 python manage.py collectstatic --noinput &&\
 chown www-data:www-data /var/www/static/ -R &&\
 chown www-data:www-data /var/www/media/ -R &&\
