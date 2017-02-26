@@ -1,7 +1,7 @@
 .config
 basesettings.py
 django_entrypoint.sh
-backup_cron.sh
+backup-cron.sh
 letsencrypt.log
 nginx.external.conf
 nginx.internal.conf
