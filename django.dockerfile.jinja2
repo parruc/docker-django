@@ -1,5 +1,5 @@
 FROM python:3.6
-RUN pip install psycopg2 "Django{{djangoversion}}" uwsgi django-material django_compressor lessc django-allauth
+RUN pip3 install psycopg2 "Django{{djangoversion}}" uwsgi django-material django_compressor lessc django-allauth Pillow "sorl-thumbnail>=12.4a1" python3-memcached
 {% if development %}
 RUN pip install django-debug-toolbar ipdb
 {% endif %}

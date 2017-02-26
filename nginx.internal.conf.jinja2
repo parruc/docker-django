@@ -6,7 +6,7 @@ server {
     client_max_body_size {{ uploadlimit }}m;
     root /var/www/;
 
-    location /static/ {
+    location ~ ^/(static|media)/ {
         location ~ \.mp4$$ {
             mp4;
             expires 15d;

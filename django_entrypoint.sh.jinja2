@@ -1,6 +1,8 @@
 #!/bin/bash
 cd /project/{{projectname}}/ &&\
 python manage.py collectstatic --noinput &&\
+chown www-data:www-data /var/www/static/ -R &&\
+chown www-data:www-data /var/www/media/ -R &&\
 python manage.py makemigrations &&\
 python manage.py migrate &&\
 exec uwsgi --ini /project/uwsgi.ini

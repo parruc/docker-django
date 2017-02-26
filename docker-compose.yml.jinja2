@@ -10,9 +10,15 @@ services:
       POSTGRES_USER: {{dbuser}}
       POSTGRES_PASSWORD: {{dbpassword}}
 
+  memcached:
+    image: memcached:latest
+    mem_limit: 256m
+    command: memcached -m 256m
+
   django:
     depends_on:
       - db
+      - memcached
     build:
       context: .
       dockerfile: django.dockerfile
@@ -20,6 +26,7 @@ services:
     volumes:
       - ./project:/project
       - ./static:/var/www/static
+      - ./media:/var/www/media
       - ./django_entrypoint.sh:/project/django_entrypoint.sh
       - ./uwsgi.ini:/project/uwsgi.ini
       - ./basesettings.py:/project/{{projectname}}/{{projectname}}/basesettings.py
@@ -37,5 +44,6 @@ services:
       - "127.0.0.1:{{port}}:80"
     volumes:
       - ./static:/var/www/static
+      - ./media:/var/www/media
       - ./nginx.internal.conf:/etc/nginx/conf.d/default.conf
     restart: always
