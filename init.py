@@ -91,6 +91,15 @@ parser.add_argument('-dbu', '--dbuser', help='Database user', required=False,
 parser.add_argument('-dbp', '--dbpassword', help='Database password',
                     required=False,
                     default=defaults.get("dbpassword", get_random_string()))
+parser.add_argument('-smtpu', '--smtpuser', help='SMTP user',
+                    required=False,
+                    default=defaults.get("smtpuser", ""))
+parser.add_argument('-smtpp', '--smtppassword', help='SMTP password',
+                    required=False,
+                    default=defaults.get("smtppassword", ""))
+parser.add_argument('-smtph', '--smtphost', help='SMTP host address',
+                    required=False,
+                    default=defaults.get("smtphost", ""))
 parser.add_argument('-pn', '--projectname', help='Name of the project',
                     required=False, default=defaults.get("projectname",
                                                          "project"))
@@ -103,10 +112,6 @@ parser.add_argument('-sc', '--secretkey', help='django project secret key',
 parser.add_argument('-ul', '--uploadlimit', help='max MB uplodable',
                     required=False,
                     default=defaults.get("uploadlimit", '2'))
-parser.add_argument('-rw', '--rewrite',
-                    help="Use this parameter if your website uses url rewrite",
-                    default=defaults.get("rewrite", False),
-                    action='store_true')
 parser.add_argument('-v', '--verbose',
                     help="Use this parameter to see verbose output",
                     default=defaults.get("verbose", False),
@@ -145,7 +150,6 @@ logger.info("http port: %s", args.port)
 logger.info("Database name: %s", args.dbname)
 logger.info("Database user: %s", args.dbuser)
 logger.info("Database password: %s", args.dbpassword)
-logger.info("Rewrite is %s", (args.rewrite and "active" or "not acrive", ))
 if args.certificatespath:
     logger.info("Certificate path is %s", (args.certificatespath, ))
 
