@@ -1,6 +1,7 @@
 [uwsgi]
 # path to where you put your project code
 chdir=/project/{{projectname}}
+virtualenv = /project/
 # python path to the wsgi module, check if you have one
 module={{projectname}}.wsgi:application
 uid=www-data
