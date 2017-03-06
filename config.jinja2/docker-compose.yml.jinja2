@@ -20,7 +20,7 @@ services:
       - db
       - memcached
     image: python:3.6
-    entrypoint: /project/django_entrypoint.sh
+    command: /project/django_entrypoint.sh
     volumes:
       - ./project:/project
       - ./static:/var/www/static
