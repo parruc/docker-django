@@ -140,7 +140,7 @@ for file in ["docker-compose.yml",
     file_path = replace_words_in_file(base_path, file, args_dict)
     if file == "nginx.external.conf":
         create_nginx_links(file_path, args.hostname)
-    if file == "django_entrypoint.sh":
+    if file in ["django_entrypoint.sh", "backup-cron.sh", ]:
         st = os.stat(file_path)
         os.chmod(file_path, st.st_mode | stat.S_IEXEC)
 
