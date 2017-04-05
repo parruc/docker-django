@@ -1,12 +1,13 @@
-mkdir /backups/{{ projectname }} -p
+mkdir /tmp/backup_{{ projectname }} -p
 docker-compose run --rm --name {{ projectname }}_db_backup db bash -c 'pg_dump --dbname=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@db:5432/$POSTGRES_NAME > /var/lib/postgresql/dump.sql'
-mv db/dump.sql /backups/{{ projectname }}/
-cp static /backups/{{ projectname }}/static -R
-cp media /backups/{{ projectname }}/media -R
-cp .config /backups/{{ projectname }}/
-cd /backups
-git add {{ projectname }}
-git commit -m "backup {{ projectname }}" {{ projectname }}
-git push -u origin master
+cp db/dump.sql /tmp/backup_{{ projectname }}/
+cp www /tmp/backup_{{ projectname }}/ -R
+cp .config /tmp/backup_{{ projectname }}/
+cd /tmp/backup_{{ projectname }}
+git init
+git remote add origin {{ backuprepository }}
+git add .
+git commit -am "backup {{ projectname }}"
+git push origin master --force
 cd /
-rm -Rf /backups/{{ projectname }}
+rm -Rf /tmp/backup_{{ projectname }}

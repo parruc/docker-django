@@ -1,6 +1,6 @@
 #!bin/python
 # -*- coding: utf-8 -*-
-
+from crontab import CronTab
 from jinja2 import Template
 
 import argparse
@@ -112,6 +112,9 @@ parser.add_argument('-dv', '--djangoversion', help='django version',
 parser.add_argument('-sc', '--secretkey', help='django project secret key',
                     required=False, default=defaults.get("secretkey",
                                                          get_random_string(50)))
+parser.add_argument('-br', '--backuprepository', help='backup git repo',
+                    required=False, default=defaults.get("backuprepository",
+                                                         None))
 parser.add_argument('-ul', '--uploadlimit', help='max MB uplodable',
                     required=False,
                     default=defaults.get("uploadlimit", '2'))
@@ -130,6 +133,11 @@ if args.verbose:
     logger.setLevel(logging.DEBUG)
 
 base_path = os.path.dirname(os.path.realpath(__file__))
+root_cron = None
+try:
+    root_cron = CronTab(user='root')
+except IOError:
+    logger.warning("Not changing cronjob: not root")
 for file in ["docker-compose.yml",
              "nginx.external.conf",
              "nginx.internal.conf",
@@ -140,9 +148,21 @@ for file in ["docker-compose.yml",
     file_path = replace_words_in_file(base_path, file, args_dict)
     if file == "nginx.external.conf":
         create_nginx_links(file_path, args.hostname)
-    if file in ["django_entrypoint.sh", "backup-cron.sh", ]:
+    if file.endswith(".sh"):
         st = os.stat(file_path)
         os.chmod(file_path, st.st_mode | stat.S_IEXEC)
+
+    if file.startswith("cron-") and "backuprepository" in args_dict:
+        if root_cron:
+            old_jobs = root_cron.find_command(file_path)
+            for job in old_jobs:
+                root_cron.remove(job)
+
+            root_job = root_cron.new(command=file_path)
+            root_job.minute.on(30)
+            root_job.hour.on(2)
+            root_job.enable()
+            root_cron.write()
 
 # show values #
 logger.info("Generated configuration with:")
