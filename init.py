@@ -165,20 +165,10 @@ for file in ["docker-compose.yml",
                 root_cron.remove(job)
 
             root_job = root_cron.new(command=file_path)
-            root_job.minute.on(args_dict["cronjob_minute"])
-            root_job.hour.on(args_dict["cronjob_hour"])
+            root_job.minute.on(args_dict["cronjobminute"])
+            root_job.hour.on(args_dict["cronjobhour"])
             root_job.enable()
             root_cron.write()
-
-# show values #
-logger.info("Generated configuration with:")
-logger.info("Host name: %s", args.hostname)
-logger.info("http port: %s", args.port)
-logger.info("Database name: %s", args.dbname)
-logger.info("Database user: %s", args.dbuser)
-logger.info("Database password: %s", args.dbpassword)
-if args.certificatespath:
-    logger.info("Certificate path is %s", (args.certificatespath, ))
 
 # save values #
 with open(".config", "w") as out_file:
