@@ -112,12 +112,18 @@ parser.add_argument('-dv', '--djangoversion', help='django version',
 parser.add_argument('-sc', '--secretkey', help='django project secret key',
                     required=False, default=defaults.get("secretkey",
                                                          get_random_string(50)))
-parser.add_argument('-br', '--backuprepository', help='backup git repo',
-                    required=False, default=defaults.get("backuprepository",
-                                                         None))
 parser.add_argument('-ul', '--uploadlimit', help='max MB uplodable',
                     required=False,
                     default=defaults.get("uploadlimit", '2'))
+parser.add_argument('-br', '--backuprepository', help='backup git repo',
+                    required=False, default=defaults.get("backuprepository",
+                                                         None))
+parser.add_argument('-cm', '--cronjobminute', help='backup croonjob minute',
+                    required=False, default=defaults.get("cronjobminute",
+                                                         "30"))
+parser.add_argument('-ch', '--cronjobhour', help='backup cronjob hour',
+                    required=False, default=defaults.get("cronjobhour",
+                                                         "02"))
 parser.add_argument('-v', '--verbose',
                     help="Use this parameter to see verbose output",
                     default=defaults.get("verbose", False),
@@ -159,8 +165,8 @@ for file in ["docker-compose.yml",
                 root_cron.remove(job)
 
             root_job = root_cron.new(command=file_path)
-            root_job.minute.on(30)
-            root_job.hour.on(2)
+            root_job.minute.on(args_dict["cronjob_minute"])
+            root_job.hour.on(args_dict["cronjob_hour"])
             root_job.enable()
             root_cron.write()
 
