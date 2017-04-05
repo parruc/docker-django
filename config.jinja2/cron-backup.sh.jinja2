@@ -1,0 +1,14 @@
+mkdir /backup_{{ projectname }} -p
+docker-compose run --rm --name {{ projectname }}_db_backup db bash -c 'pg_dump --dbname=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@db:5432/$POSTGRES_NAME > /var/lib/postgresql/dump.sql'
+cp db/dump.sql /backup_{{ projectname }}/
+cp static /backup_{{ projectname }}/ -R
+cp media /backup_{{ projectname }}/ -R
+cp .config /backup_{{ projectname }}/
+cd /backup_{{ projectname }}
+git init
+git remote add origin git@bitbucket.org:parruc/backup_{{ projectname }}.git
+git add .
+git commit -am "backup {{ projectname }}"
+git push origin master --force
+cd /
+rm -Rf /backup_{{ projectname }}
