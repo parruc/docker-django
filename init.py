@@ -150,7 +150,7 @@ for file in ["docker-compose.yml",
              "basesettings.py",
              "uwsgi.ini",
              "django_entrypoint.sh",
-             "backup-cron.sh", ]:
+             "cron-backup.sh", ]:
     file_path = replace_words_in_file(base_path, file, args_dict)
     if file == "nginx.external.conf":
         create_nginx_links(file_path, args.hostname)
