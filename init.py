@@ -123,7 +123,7 @@ parser.add_argument('-cm', '--cronjobminute', help='backup croonjob minute',
                                                          "30"))
 parser.add_argument('-ch', '--cronjobhour', help='backup cronjob hour',
                     required=False, default=defaults.get("cronjobhour",
-                                                         "02"))
+                                                         "03"))
 parser.add_argument('-v', '--verbose',
                     help="Use this parameter to see verbose output",
                     default=defaults.get("verbose", False),
