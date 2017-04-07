@@ -9,6 +9,7 @@ git init
 git remote add origin git@bitbucket.org:parruc/backup_{{ projectname }}.git
 git add .
 git commit -am "backup {{ projectname }}"
+git pull --no-edit -s ours origin master
 git push origin master --force
 cd /
 rm -Rf /backup_{{ projectname }}
