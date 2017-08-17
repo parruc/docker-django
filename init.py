@@ -1,11 +1,15 @@
 #!bin/python
 # -*- coding: utf-8 -*-
-from crontab import CronTab
+try:
+    from crontab import CronTab
+except:
+    CronTab = False
 from jinja2 import Template
 
 import argparse
 import errno
 import json
+import glob
 import logging
 import os
 import random
@@ -30,10 +34,8 @@ def get_random_string(size=32, chars=password_chars):
     return ''.join(random.choice(chars) for _ in range(size))
 
 
-def replace_words_in_file(base_path, file, values):
-    src_file = file + ".jinja2"
-    src_file_path = os.path.join(base_path, "config.jinja2", src_file)
-    dst_file_path = os.path.join(base_path, "config", file)
+def replace_words_in_file(src_file_path, values):
+    dst_file_path = src_file_path.replace(".jinja2", "")
     input_text = ""
     with open(src_file_path, "r") as src_file:
         input_text = src_file.read()
@@ -67,8 +69,11 @@ def create_nginx_links(file, hostname):
 try:
     with open(".config", "r") as in_file:
         defaults = json.load(in_file)
+        error_loading = False
 except:
     defaults = {}
+    error_loading = True
+    logger.warning("Using empty default: could not load config file")
 
 parser = argparse.ArgumentParser(description='Docker mariadb django nginx \
                                               stack configurator.')
@@ -94,6 +99,12 @@ parser.add_argument('-dbu', '--dbuser', help='Database user', required=False,
 parser.add_argument('-dbp', '--dbpassword', help='Database password',
                     required=False,
                     default=defaults.get("dbpassword", get_random_string()))
+parser.add_argument('-g', '--gis',
+                    help="Use this parameter to add GIS support to postgres",
+                    default=defaults.get("gis", False),
+                    action='store_true')
+parser.add_argument('-r', '--requirements', help='Django app requirements', required=False,
+                    default=defaults.get("requirements", []))
 parser.add_argument('-smtpu', '--smtpuser', help='SMTP user',
                     required=False,
                     default=defaults.get("smtpuser", ""))
@@ -106,9 +117,9 @@ parser.add_argument('-smtph', '--smtphost', help='SMTP host address',
 parser.add_argument('-pn', '--projectname', help='Name of the project',
                     required=False, default=defaults.get("projectname",
                                                          "project"))
-parser.add_argument('-dv', '--djangoversion', help='django version',
-                    required=False, default=defaults.get("djangoversion",
-                                                         ''))
+parser.add_argument('-pv', '--pythonversion', help='Python version to use as base docker image',
+                    required=False, default=defaults.get("pythonversion",
+                                                         '3.6'))
 parser.add_argument('-sc', '--secretkey', help='django project secret key',
                     required=False, default=defaults.get("secretkey",
                                                          get_random_string(50)))
@@ -128,6 +139,10 @@ parser.add_argument('-v', '--verbose',
                     help="Use this parameter to see verbose output",
                     default=defaults.get("verbose", False),
                     action='store_true')
+parser.add_argument('-c', '--create',
+                    help="Use this parameter to create the .config file if does not exists",
+                    default=defaults.get("create", False),
+                    action='store_true')
 parser.add_argument('-dev', '--development',
                     help="Use this parameter to see development to true",
                     default=defaults.get("development", False),
@@ -140,25 +155,22 @@ if args.verbose:
 
 base_path = os.path.dirname(os.path.realpath(__file__))
 root_cron = None
-try:
-    root_cron = CronTab(user='root')
-except IOError:
-    logger.warning("Not changing cronjob: not root")
-for file in ["docker-compose.yml",
-             "nginx.external.conf",
-             "nginx.internal.conf",
-             "basesettings.py",
-             "uwsgi.ini",
-             "django_entrypoint.sh",
-             "cron-backup.sh", ]:
-    file_path = replace_words_in_file(base_path, file, args_dict)
-    if file == "nginx.external.conf":
-        create_nginx_links(file_path, args.hostname)
-    if file.endswith(".sh"):
-        st = os.stat(file_path)
-        os.chmod(file_path, st.st_mode | stat.S_IEXEC)
+if CronTab:
+    try:
+        root_cron = CronTab(user='root')
+    except IOError:
+        logger.warning("Not changing cronjob: not root")
 
-    if file.startswith("cron-") and args_dict.get("backuprepository", False):
+for filename in glob.iglob(os.path.join(base_path, "config.jinja2", "*.jinja2")):
+    src_file_path = os.path.join(base_path, "config.jinja2", filename) 
+    dst_file_path = replace_words_in_file(src_file_path, args_dict)
+    if dst_file_path.endswith("nginx.external.conf"):
+        create_nginx_links(dst_file_path, args.hostname)
+    if dst_file_path.endswith(".sh"):
+        st = os.stat(dst_file_path)
+        os.chmod(dst_file_path, st.st_mode | stat.S_IEXEC)
+
+    if filename.startswith("cron-") and args_dict.get("backuprepository", False):
         if root_cron:
             old_jobs = root_cron.find_command(file_path)
             for job in old_jobs:
@@ -171,5 +183,6 @@ for file in ["docker-compose.yml",
             root_cron.write()
 
 # save values #
-with open(".config", "w") as out_file:
-    json.dump(args_dict, out_file, sort_keys=True, indent=4)
+if not error_loading or args_dict["create"]:
+    with open(".config", "w") as out_file:
+        json.dump(args_dict, out_file, sort_keys=True, indent=4)

@@ -1,4 +1,4 @@
 setuptools>11.3
 certbot
 jinja2
-python-crontab
+crontab

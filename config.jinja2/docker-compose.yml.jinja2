@@ -1,6 +1,9 @@
 version: '2'
 services:
   db:
+    build:
+      context: .
+      dockerfile: config/postgres.dockerfile
     image: postgres:latest
     volumes:
       - ./db:/var/lib/postgresql
@@ -19,14 +22,18 @@ services:
     depends_on:
       - db
       - memcached
-    image: python:3.6
-    command: /project/django_entrypoint.sh
+    build:
+      context: .
+      dockerfile: config/django.dockerfile
+    image: python:{{ pythonversion }}
+    command: /project/django.entrypoint.sh
     volumes:
       - ./project:/project
       - ./static:/var/www/static
       - ./media:/var/www/media
-      - ./config/django_entrypoint.sh:/project/django_entrypoint.sh
+      - ./config.django.entrypoint.sh:/project/django.entrypoint.sh
       - ./config/uwsgi.ini:/project/uwsgi.ini
+      - ./config/requirements.txt:/project/requirements.txt
       - ./config/basesettings.py:/project/{{projectname}}/{{projectname}}/basesettings.py
     restart: always
 {% if development %}
