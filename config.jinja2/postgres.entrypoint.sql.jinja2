@@ -1,0 +1,8 @@
+{% if gis %}
+-- Selects my DB
+\c {{ dbname }};
+-- Enable PostGIS (includes raster)
+CREATE EXTENSION postgis;
+-- Enable Topology
+CREATE EXTENSION postgis_topology;
+{% endif %}

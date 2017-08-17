@@ -1,0 +1,8 @@
+FROM python:{{ pythonversion }}
+RUN pip3 install virtualenv
+RUN virtualenv /project
+COPY config/requirements.txt /project/requirements.txt
+RUN /project/bin/pip install -r /project/requirements.txt
+{% if development %}
+RUN /project/bin/pip install django-debug-toolbar ipdb
+{% endif %}

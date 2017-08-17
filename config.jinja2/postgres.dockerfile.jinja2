@@ -1,0 +1,5 @@
+FROM postgres:latest
+{% if gis %}
+COPY config/postgres.entrypoint.sql /docker-entrypoint-initdb.d/
+RUN apt update && apt install -y postgis
+{% endif %}
