@@ -28,12 +28,9 @@ services:
     image: python:{{ pythonversion }}
     command: /project/django.entrypoint.sh
     volumes:
-      - ./project:/project
+      - ./project/{{projectname}}:/project/{{projectname}}
       - ./static:/var/www/static
       - ./media:/var/www/media
-      - ./config.django.entrypoint.sh:/project/django.entrypoint.sh
-      - ./config/uwsgi.ini:/project/uwsgi.ini
-      - ./config/requirements.txt:/project/requirements.txt
       - ./config/basesettings.py:/project/{{projectname}}/{{projectname}}/basesettings.py
     restart: always
 {% if development %}

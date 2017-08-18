@@ -1,8 +1,12 @@
 FROM python:{{ pythonversion }}
+RUN mkdir -p /project
 RUN pip3 install virtualenv
-RUN virtualenv /project
+RUN virtualenv /project/
 COPY config/requirements.txt /project/requirements.txt
 RUN /project/bin/pip install -r /project/requirements.txt
 {% if development %}
 RUN /project/bin/pip install django-debug-toolbar ipdb
 {% endif %}
+COPY config/django.entrypoint.sh /project/django.entrypoint.sh
+RUN chmod u+x /project/django.entrypoint.sh
+COPY config/uwsgi.ini /project/uwsgi.ini
