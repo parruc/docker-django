@@ -1,9 +1,5 @@
 #!/bin/bash
-cd /project/{{projectname}}/ &&\
-chown www-data:www-data /var/www/static -R &&\
-/project/bin/python manage.py collectstatic --noinput &&\
-chown www-data:www-data /var/www/static/ -R &&\
-chown www-data:www-data /var/www/media/ -R &&\
-/project/bin/python manage.py makemigrations &&\
-/project/bin/python manage.py migrate &&\
-exec uwsgi --ini /project/uwsgi.ini
+if [ -f /project/{{projectname}}/entrypoint_hook.sh ]; then
+    /project/{{projectname}}/entrypoint_hook.sh
+fi &&\
+exec /project/bin/uwsgi --ini /project/uwsgi.ini

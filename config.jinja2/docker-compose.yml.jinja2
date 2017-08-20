@@ -31,6 +31,7 @@ services:
       - ./project/{{projectname}}:/project/{{projectname}}
       - ./static:/var/www/static
       - ./media:/var/www/media
+      - ./output:/var/log
       - ./config/basesettings.py:/project/{{projectname}}/{{projectname}}/basesettings.py
     restart: always
 {% if development %}
