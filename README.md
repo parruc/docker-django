@@ -33,9 +33,11 @@ The init script help:
 --------------------------
 usage: init.py [-h] [-hn HOSTNAME] [-p PORT] [-cp CERTIFICATESPATH]
                [-csp CONTENTSECURITYPOLICY] [-dbn DBNAME] [-dbu DBUSER]
-               [-dbp DBPASSWORD] [-dbrp DBROOTPASSWORD] [-pn PROJECTNAME]
-               [-dv DJANGOVERSION] [-sc SECRETKEY] [-ul UPLOADLIMIT] [-rw]
-               [-v] [-dev]
+               [-dbp DBPASSWORD] [-g] [-r REQUIREMENTS] [-smtpu SMTPUSER]
+               [-smtpp SMTPPASSWORD] [-smtph SMTPHOST] [-pn PROJECTNAME]
+               [-pv PYTHONVERSION] [-sc SECRETKEY] [-ul UPLOADLIMIT]
+               [-br BACKUPREPOSITORY] [-cm CRONJOBMINUTE] [-ch CRONJOBHOUR]
+               [-v] [-c] [-dev]
 
 Docker mariadb django nginx stack configurator.
 
@@ -55,20 +57,35 @@ optional arguments:
                         Database user
   -dbp DBPASSWORD, --dbpassword DBPASSWORD
                         Database password
-  -dbrp DBROOTPASSWORD, --dbrootpassword DBROOTPASSWORD
-                        Database root password
+  -g, --gis             Use this parameter to add GIS support to postgres
+  -r REQUIREMENTS, --requirements REQUIREMENTS
+                        Django app requirements
+  -smtpu SMTPUSER, --smtpuser SMTPUSER
+                        SMTP user
+  -smtpp SMTPPASSWORD, --smtppassword SMTPPASSWORD
+                        SMTP password
+  -smtph SMTPHOST, --smtphost SMTPHOST
+                        SMTP host address
   -pn PROJECTNAME, --projectname PROJECTNAME
                         Name of the project
-  -dv DJANGOVERSION, --djangoversion DJANGOVERSION
-                        django version
+  -pv PYTHONVERSION, --pythonversion PYTHONVERSION
+                        Python version to use as base docker image
   -sc SECRETKEY, --secretkey SECRETKEY
                         django project secret key
   -ul UPLOADLIMIT, --uploadlimit UPLOADLIMIT
                         max MB uplodable
-  -rw, --rewrite        Use this parameter if your website uses url rewrite
+  -br BACKUPREPOSITORY, --backuprepository BACKUPREPOSITORY
+                        backup git repo
+  -cm CRONJOBMINUTE, --cronjobminute CRONJOBMINUTE
+                        backup croonjob minute
+  -ch CRONJOBHOUR, --cronjobhour CRONJOBHOUR
+                        backup cronjob hour
   -v, --verbose         Use this parameter to see verbose output
-  -dev, --development   Use this parameter to see development to tru
+  -c, --create          Use this parameter to create the .config file if does
+                        not exists
+  -dev, --development   Use this parameter to see development to true
   
+
 The configuration params will be printed on screen and saved on a .config file
 params order of resultion is:
 
