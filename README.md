@@ -30,6 +30,8 @@ into real configuration files for docker compose and nginx (both int and ext)::
     service nginx reload
 
 The init script help:
+
+```bash
 --------------------------
 usage: init.py [-h] [-hn HOSTNAME] [-p PORT] [-cp CERTIFICATESPATH]
                [-csp CONTENTSECURITYPOLICY] [-dbn DBNAME] [-dbu DBUSER]
@@ -84,7 +86,7 @@ optional arguments:
   -c, --create          Use this parameter to create the .config file if does
                         not exists
   -dev, --development   Use this parameter to see development to true
-  
+```
 
 The configuration params will be printed on screen and saved on a .config file
 params order of resultion is:
