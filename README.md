@@ -130,3 +130,12 @@ When developement is active:
  * Debug toolbar is shown
  * uwsgi starts with python-autoreload=1 and honour-stdin=true to allow pdb
  * docker compose launches uwsgi using stdin_open: true tty: true to allow pdb
+
+Super user creation
+-------------------
+
+To create the admin user you can run 
+
+```bash
+docker-compose run django /project/bin/python /project/PROJECT_NAME/manage.py createsuperuser
+```
