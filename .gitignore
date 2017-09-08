@@ -4,6 +4,7 @@ certbot-auto
 certbot.log
 pip-selfcheck.json
 settings.py
+*.sql
 config/
 db/
 project/
@@ -13,4 +14,5 @@ bin/
 include/
 lib/
 local/
+output/
 share/
