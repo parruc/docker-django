@@ -6,6 +6,11 @@ except:
     CronTab = False
 from jinja2 import Template
 
+try:
+    from string import letters as ascii_letters
+except:
+    from string import ascii_letters
+
 import argparse
 import errno
 import json
@@ -27,7 +32,7 @@ default_csp = ("default-src 'self'; img-src 'self' data: *; style-src 'self' "
                "'unsafe-inline' 'unsafe-eval' *.googleapis.com; child-src "
                "'self' *.youtube.com; connect-src 'self'; media-src 'self'")
 
-password_chars = string.letters + string.digits + ",;.:-_()="
+password_chars = ascii_letters + string.digits + ",;.:-_()="
 
 
 def get_random_string(size=32, chars=password_chars):
