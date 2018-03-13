@@ -10,10 +10,12 @@ git pull --no-edit origin master
 rm -Rf /tmp/backup_{{ projectname }}/www
 cd $CURR_DIR
 cp db/dump.sql /tmp/backup_{{ projectname }}/
-cp www /tmp/backup_{{ projectname }}/ -R
+{% for backupfolder in backupfolders %}
+    cp --parents {{ backupfolder }} /tmp/backup_{{ projectname }}/ -R
+{% endfor %}
 cp .config /tmp/backup_{{ projectname }}/
 cd /tmp/backup_{{ projectname }}
-git add .
+git add . --all
 git commit -am "backup {{ projectname }}"
 git push origin master
 cd /

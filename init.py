@@ -134,6 +134,8 @@ parser.add_argument('-ul', '--uploadlimit', help='max MB uplodable',
 parser.add_argument('-br', '--backuprepository', help='backup git repo',
                     required=False, default=defaults.get("backuprepository",
                                                          None))
+parser.add_argument('-bf', '--backupfolders', help='Folders to backup', required=False,
+                    default=defaults.get("backupfolders", []))
 parser.add_argument('-cm', '--cronjobminute', help='backup croonjob minute',
                     required=False, default=defaults.get("cronjobminute",
                                                          "30"))
