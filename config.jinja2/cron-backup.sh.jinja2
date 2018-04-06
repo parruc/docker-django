@@ -1,5 +1,5 @@
 #!/bin/bash
-CURR_DIR="$PWD"
+cd {{ projectpath }}
 mkdir /tmp/backup_{{ projectname }} -p
 docker-compose run --rm --name {{ projectname }}_db_backup db bash -c 'pg_dump --dbname=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@db:5432/$POSTGRES_NAME > /var/lib/postgresql/dump.sql'
 
@@ -8,7 +8,7 @@ git init
 git remote add origin {{ backuprepository }}
 git pull --no-edit origin master 
 rm -Rf /tmp/backup_{{ projectname }}/www
-cd $CURR_DIR
+cd {{ projectpath }}
 cp db/dump.sql /tmp/backup_{{ projectname }}/
 {% for backupfolder in backupfolders %}
     cp --parents {{ backupfolder }} /tmp/backup_{{ projectname }}/ -R
