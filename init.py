@@ -1,9 +1,6 @@
 #!bin/python
 # -*- coding: utf-8 -*-
-try:
-    from crontab import CronTab
-except:
-    CronTab = False
+from crontab import CronTab
 from jinja2 import Template
 
 try:
@@ -163,28 +160,29 @@ if args.verbose:
 base_path = os.path.dirname(os.path.realpath(__file__))
 args_dict["projectpath"] = base_path
 root_cron = None
-if CronTab:
-    try:
-        root_cron = CronTab(user='root')
-    except IOError:
-        logger.warning("Not changing cronjob: not root")
+try:
+    root_cron = CronTab(user='root')
+except IOError:
+    logger.warning("Not changing cronjob: not root")
 
 for filename in glob.iglob(os.path.join(base_path, "config.jinja2", "*.jinja2")):
     src_file_path = os.path.join(base_path, "config.jinja2", filename) 
     dst_file_path = replace_words_in_file(src_file_path, args_dict)
+    dst_file_name = dst_file_path.split("/")[-1]
     if dst_file_path.endswith("nginx.external.conf"):
         create_nginx_links(dst_file_path, args.hostname)
     if dst_file_path.endswith(".sh"):
         st = os.stat(dst_file_path)
         os.chmod(dst_file_path, st.st_mode | stat.S_IEXEC)
 
-    if filename.startswith("cron-") and args_dict.get("backuprepository", False):
+    if dst_file_name.startswith("cron-") and args_dict.get("backuprepository", False):
         if root_cron:
-            old_jobs = root_cron.find_command(file_path)
+            command = dst_file_path + " >> /var/log/" + dst_file_name + ".log  2>&1"
+            old_jobs = root_cron.find_command(command)
             for job in old_jobs:
                 root_cron.remove(job)
 
-            root_job = root_cron.new(command=file_path)
+            root_job = root_cron.new(command=command)
             root_job.minute.on(args_dict["cronjobminute"])
             root_job.hour.on(args_dict["cronjobhour"])
             root_job.enable()

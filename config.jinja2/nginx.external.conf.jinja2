@@ -14,7 +14,13 @@ add_header X-Content-Type-Options "nosniff";
 server {
     listen 80;
     server_name {{ hostname }} www.{{hostname}};
-    return 301 https://{{hostname}}$request_uri;
+    location ^~ /.well-known/acme-challenge/ {
+        default_type "text/plain";
+        root /var/www/certbot/;
+    }
+    location / {
+        return 301 https://{{hostname}}$request_uri;
+    }
 }
 
 server {
@@ -42,11 +48,21 @@ server {
 server {
     listen 80;
     server_name www.{{hostname}};
-    rewrite ^/(.*) http://{{hostname}}/$1 permanent;
+    location ^~ /.well-known/acme-challenge/ {
+        default_type "text/plain";
+        root /var/www/certbot/;
+    }
+    location / {
+        rewrite ^/(.*) http://{{hostname}}/$1 permanent;
+    }
 }
 
 server {
     listen 80;
+    location ^~ /.well-known/acme-challenge/ {
+        default_type "text/plain";
+        root /var/www/certbot/;
+    }
 
 {% endif %}
 
@@ -62,8 +78,4 @@ server {
         proxy_pass         http://localhost:{{ port }};
     }
     
-    location ^~ /.well-known/acme-challenge/ {
-        default_type "text/plain";
-        root /var/www/certbot/;
-    }
 }
