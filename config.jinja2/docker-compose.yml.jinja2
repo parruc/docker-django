@@ -27,6 +27,8 @@ services:
       dockerfile: config/django.dockerfile
     image: python:{{ pythonversion }}
     command: /project/django.entrypoint.sh
+    environment:
+        DJANGO_SETTINGS_MODULE: {{projectname}}.settings
     volumes:
       - ./project/{{projectname}}:/project/{{projectname}}
       - ./static:/var/www/static
