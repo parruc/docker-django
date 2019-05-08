@@ -107,6 +107,8 @@ parser.add_argument('-g', '--gis',
                     action='store_true')
 parser.add_argument('-r', '--requirements', help='Django app requirements', required=False,
                     default=defaults.get("requirements", []))
+parser.add_argument('-rd', '--requirementsdev', help='Django app development requirements', required=False,
+                    default=defaults.get("requirementsdev", []))
 parser.add_argument('-smtpu', '--smtpuser', help='SMTP user',
                     required=False,
                     default=defaults.get("smtpuser", ""))
