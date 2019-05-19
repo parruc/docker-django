@@ -5,7 +5,8 @@ server {
     access_log /var/log/nginx/access.log;
     client_max_body_size {{ uploadlimit }}m;
     root /var/www/;
-
+    
+{% if not development %}
     location ~ ^/(static|media)/ {
         location ~ \.mp4$$ {
             mp4;
@@ -15,6 +16,8 @@ server {
             expires 15d;
         }
     }
+
+{% endif %}
 
     # Finally, send all non-media requests to the Django server.
     location / {
