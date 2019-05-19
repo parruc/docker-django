@@ -6,7 +6,7 @@ services:
       dockerfile: config/postgres.dockerfile
     image: postgres:{{projectname}}
     volumes:
-      - ./db:/var/lib/postgresql
+      - ./db:/var/lib/postgresql/data
     restart: always
     environment:
       POSTGRES_DB: {{dbname}}
@@ -33,7 +33,6 @@ services:
       - ./project/{{projectname}}:/project/{{projectname}}
       - ./static:/var/www/static
       - ./media:/var/www/media
-      - ./output:/var/log
       - ./config/basesettings.py:/project/{{projectname}}/{{projectname}}/basesettings.py
     restart: always
 {% if development %}
