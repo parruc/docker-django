@@ -6,6 +6,7 @@ RUN virtualenv --python=python{{pythonversion}} /project/
 COPY config/requirements.txt /project/requirements.txt
 RUN /project/bin/pip install -r /project/requirements.txt
 {% if development %}
+COPY config/requirements.dev.txt /project/requirements.dev.txt
 RUN /project/bin/pip install -r /project/requirements.dev.txt
 {% endif %}
 COPY config/django.entrypoint.sh /project/django.entrypoint.sh
