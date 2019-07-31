@@ -1,0 +1,28 @@
+{
+    "files.associations": {
+        "*.zcml": "xml"
+    },
+    "files.exclude": {
+        "**/*.h*": true,
+        "**/*.py[co]": true,
+        "**/*.so": true,
+        "**/__pycache__": true
+    },
+    "python.linting.enabled": true,
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Path": "/project/bin/flake8",
+    "python.linting.pylintArgs": [
+	"--load-plugins=pylint_django",
+        "-d",
+        "E0239",
+        "-d",
+        "C0111"
+    ],
+    "python.linting.pylintEnabled": true,
+    "python.linting.pylintPath": "/project/bin/pylint",
+    "python.pythonPath": "/project/bin/python3",
+    "python.sortImports.args": [
+        "--settings-path=/project/.isort.cfg"
+    ],
+    "python.sortImports.path": "/project/bin/isort"
+}
