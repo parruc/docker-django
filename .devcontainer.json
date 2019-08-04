@@ -3,5 +3,5 @@
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "django",
 	"workspaceFolder": "/project/",
-	"extensions": ["Python", "Atom Keymap", "gettext"]
+	"extensions": ["ms-python.python", "ms-vscode.atom-keybindings", "mrorz.language-gettext"]
 }
