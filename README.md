@@ -27,7 +27,6 @@ Arguments can be passed to the command but easiest way is to use a .config file
 containing the relevant setup information in json format::
 
 
-    mkdir config
     ./init.py -hn example.com -p 7080 -rw -dbn db_name -dbu db_user
     docker-compose up -d
     service nginx reload
