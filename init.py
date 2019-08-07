@@ -162,7 +162,7 @@ if args.verbose:
 base_path = os.path.dirname(os.path.realpath(__file__))
 args_dict["projectpath"] = base_path
 root_cron = None
-if not os.path.exists(os.path.join(base_path, "config"):
+if not os.path.exists(os.path.join(base_path, "config")):
     os.makedirs(os.path.join(base_path, "config")
 try:
     root_cron = CronTab(user='root')
