@@ -17,6 +17,7 @@ services:
     image: memcached:latest
     mem_limit: 256m
     command: memcached -m 256m
+    restart: always
 
   django:
     depends_on:
