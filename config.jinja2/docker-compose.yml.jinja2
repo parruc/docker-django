@@ -30,7 +30,7 @@ services:
     environment:
         DJANGO_SETTINGS_MODULE: {{projectname}}.settings
     volumes:
-      - ./project/{{projectname}}:/project/{{projectname}}
+      - ./project/backend:/project/{{projectname}}
       - ./static:/var/www/static
       - ./media:/var/www/media
       - ./config/basesettings.py:/project/{{projectname}}/{{projectname}}/basesettings.py
@@ -40,14 +40,34 @@ services:
     tty: true
 {% endif %}
 
-  web:
+{% if react %}
+  react:
     depends_on:
       - django
+    build:
+      context: .
+      dockerfile: config/react.dockerfile
+    image: react:{{projectname}}
+    working_dir: /app
+    {% if development %}
+    command: yarn start
+    {% else %}
+    command: yarn build
+    {% endif %}
+    volumes:
+      - ./project/frontend:/app
+{% endif %}
+
+  web:
     image: nginx:latest
     ports:
       - "127.0.0.1:{{port}}:80"
     volumes:
+      {% if react %}
+      - ./project/frontend/build:/var/www
+      {% else %}
       - ./static:/var/www/static
       - ./media:/var/www/media
+      {% endif %}
       - ./config/nginx.internal.conf:/etc/nginx/conf.d/default.conf
     restart: always

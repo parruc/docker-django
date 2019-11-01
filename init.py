@@ -153,6 +153,8 @@ parser.add_argument('-dev', '--development',
                     help="Use this parameter to see development to true",
                     default=defaults.get("development", False),
                     action='store_true')
+parser.add_argument('-re', '--react', help='Builds react container for FE', required=False,
+                    default=defaults.get("react", False), action='store_true')
 
 args = parser.parse_args()
 args_dict = vars(args)
