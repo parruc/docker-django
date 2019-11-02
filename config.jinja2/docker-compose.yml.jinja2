@@ -32,8 +32,8 @@ services:
         DJANGO_SETTINGS_MODULE: {{projectname}}.settings
     volumes:
       - ./project/backend:/project/{{projectname}}
-      - ./static:/var/www/static
-      - ./media:/var/www/media
+      - ./django_static:/var/www/static
+      - ./django_media:/var/www/media
       - ./config/basesettings.py:/project/{{projectname}}/{{projectname}}/basesettings.py
     restart: always
 {% if development %}
@@ -66,9 +66,11 @@ services:
     volumes:
       {% if react %}
       - ./project/frontend/build:/var/www
+      - ./django_static:/var/www/api/static
+      - ./django_media:/var/www/api/media
       {% else %}
-      - ./static:/var/www/static
-      - ./media:/var/www/media
+      - ./django_static:/var/www/static
+      - ./django_media:/var/www/media
       {% endif %}
       - ./config/nginx.internal.conf:/etc/nginx/conf.d/default.conf
     restart: always

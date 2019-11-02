@@ -9,8 +9,8 @@ settings.py
 config/
 db/
 project/
-static/
-media/
+django_static/
+django_media/
 bin/
 include/
 lib/

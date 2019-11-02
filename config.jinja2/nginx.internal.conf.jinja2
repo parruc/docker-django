@@ -6,12 +6,11 @@ server {
     client_max_body_size {{ uploadlimit }}m;
     root /var/www;
     
-{% if not development %}
-  {% if react %}
+{% if react %}
     location ~ ^/api/(static|media)/ {
-  {% else %}
+{% else %}
     location ~ ^/(static|media)/ {
-  {% endif %}
+{% endif %}
         location ~ \.mp4$$ {
             mp4;
             expires 15d;
@@ -20,7 +19,6 @@ server {
             expires 15d;
         }
     }
-{% endif %}
 
     # Finally, send all non-media requests to the Django server.
 {% if react %}
