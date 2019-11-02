@@ -59,6 +59,7 @@ server {
 
 server {
     listen 80;
+    server_name {{hostname}};
     location ^~ /.well-known/acme-challenge/ {
         default_type "text/plain";
         root /var/www/certbot/;
