@@ -65,7 +65,7 @@ services:
       - "127.0.0.1:{{port}}:80"
     volumes:
       {% if react %}
-      - ./project/frontend/build:/var/www
+      - ./project/frontend/build:/var/www/react
       - ./django_static:/var/www/api/static
       - ./django_media:/var/www/api/media
       {% else %}
