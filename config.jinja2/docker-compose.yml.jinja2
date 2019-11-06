@@ -31,7 +31,11 @@ services:
     environment:
         DJANGO_SETTINGS_MODULE: {{projectname}}.settings
     volumes:
+    {% if react %}
       - ./project/backend:/project/{{projectname}}
+    {% else %}
+      - ./project/{{projectname}}:/project/{{projectname}}
+    {% endif %}
       - ./django_static:/var/www/static
       - ./django_media:/var/www/media
       - ./config/basesettings.py:/project/{{projectname}}/{{projectname}}/basesettings.py
