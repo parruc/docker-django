@@ -31,10 +31,10 @@ services:
     environment:
         DJANGO_SETTINGS_MODULE: {{projectname}}.settings
     volumes:
-      - ./project/backend:/project/{{projectname}}
+      - ./project/backend:/project/django
       - ./django_static:/var/www/static
       - ./django_media:/var/www/media
-      - ./config/basesettings.py:/project/{{projectname}}/{{projectname}}/basesettings.py
+      - ./config/basesettings.py:/project/django/{{projectname}}/basesettings.py
     restart: always
 {% if development %}
     stdin_open: true
