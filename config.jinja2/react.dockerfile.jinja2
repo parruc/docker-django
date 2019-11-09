@@ -1,4 +1,2 @@
 FROM node
-WORKDIR /app
-RUN yarn
-RUN yarn add react-script
+COPY config/react.entrypoint.sh /app/react.entrypoint.sh

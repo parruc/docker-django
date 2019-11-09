@@ -50,11 +50,7 @@ services:
       dockerfile: config/react.dockerfile
     image: react:{{projectname}}
     working_dir: /app
-    {% if development %}
-    command: yarn start
-    {% else %}
-    command: yarn build
-    {% endif %}
+    command: /app/react.entrypoint.sh
     volumes:
       - ./project/frontend:/app
 {% endif %}
