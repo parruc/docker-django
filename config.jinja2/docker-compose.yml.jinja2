@@ -50,7 +50,7 @@ services:
       dockerfile: config/react.dockerfile
     image: react:{{projectname}}
     working_dir: /app
-    command: /app/react.entrypoint.sh
+    command: /react.entrypoint.sh
     volumes:
       - ./project/frontend:/app
 {% endif %}
