@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ -f /project/{{projectname}}/entrypoint_hook.sh ]; then
-    /project/{{projectname}}/entrypoint_hook.sh
+if [ -f /project/django/entrypoint_hook.sh ]; then
+    /project/django/entrypoint_hook.sh
 fi &&\
 exec /project/bin/uwsgi --ini /project/uwsgi.ini

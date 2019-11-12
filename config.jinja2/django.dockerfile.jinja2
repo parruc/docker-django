@@ -12,5 +12,4 @@ RUN mkdir /project/.vscode
 COPY config/vscode.settings.json /project/.vscode/settings.json
 {% endif %}
 COPY config/django.entrypoint.sh /project/django.entrypoint.sh
-RUN chmod u+x /project/django.entrypoint.sh
 COPY config/uwsgi.ini /project/uwsgi.ini

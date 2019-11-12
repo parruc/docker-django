@@ -31,7 +31,7 @@ services:
     environment:
         DJANGO_SETTINGS_MODULE: {{projectname}}.settings
     volumes:
-      - ./project/django:/project/django
+      - ./project/backend:/project/django
       - ./django_static:/var/www/static
       - ./django_media:/var/www/media
       - ./config/basesettings.py:/project/django/{{projectname}}/basesettings.py
@@ -50,11 +50,7 @@ services:
       dockerfile: config/react.dockerfile
     image: react:{{projectname}}
     working_dir: /app
-    {% if development %}
-    command: yarn start
-    {% else %}
-    command: yarn build
-    {% endif %}
+    command: /react.entrypoint.sh
     volumes:
       - ./project/frontend:/app
 {% endif %}

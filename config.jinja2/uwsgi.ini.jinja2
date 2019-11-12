@@ -1,6 +1,6 @@
 [uwsgi]
 # path to where you put your project code
-chdir=/project/{{projectname}}
+chdir=/project/django
 virtualenv = /project/
 # python path to the wsgi module, check if you have one
 module={{projectname}}.wsgi:application
@@ -25,7 +25,7 @@ reload-on-exception=true
 {% if development %}
 python-autoreload=1
 honour-stdin=true
-touch-reload = /project/{{ projectname }}/{{ projectname }}/settings.py
+touch-reload = /project/django/{{ projectname }}/settings.py
 {% else %}
 harakiri=30
 {% endif %}

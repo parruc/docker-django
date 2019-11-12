@@ -1,0 +1,8 @@
+#!/bin/bash
+yarn install
+{% if development %}
+yarn start
+{% else %}
+yarn build
+chown www-data:www-data /app/build/ -R
+{% endif %}
