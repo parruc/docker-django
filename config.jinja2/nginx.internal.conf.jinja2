@@ -15,7 +15,7 @@ server {
             mp4;
             expires 15d;
         }
-        location ~ \.(m4s|ts|jpg|jpeg|png|gif|ico|css|js)$$ {
+        location ~ \.(m4s|ts|jpg|jpeg|png|gif|ico|css|js|eot|otf|ttf|woff|woff2)$$ {
             expires 15d;
         }
     }
@@ -43,6 +43,7 @@ server {
     {% else %}
        root /var/www/react;
        index index.html index.htm;
+       expires 15d;
     {% endif %}
     }
 {% endif %}
