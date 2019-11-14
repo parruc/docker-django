@@ -155,6 +155,8 @@ parser.add_argument('-dev', '--development',
                     action='store_true')
 parser.add_argument('-re', '--react', help='Builds react container for FE', required=False,
                     default=defaults.get("react", False), action='store_true')
+parser.add_argument('-ga', '--gatsby', help='COnfigures FE container for gatsby', required=False,
+                    default=defaults.get("gatsby", False), action='store_true')
 
 args = parser.parse_args()
 args_dict = vars(args)
