@@ -43,8 +43,6 @@ services:
 
 {% if react %}
   react:
-    depends_on:
-      - django
     build:
       context: .
       dockerfile: config/react.dockerfile
@@ -56,6 +54,9 @@ services:
 {% endif %}
 
   web:
+    depends_on:
+      - django
+      - react
     image: nginx:latest
     ports:
       - "127.0.0.1:{{port}}:80"
