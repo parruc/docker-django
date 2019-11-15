@@ -1,7 +1,15 @@
 #!/bin/bash
 yarn install
+{% if gatsby %}
+npx gatsby telemetry --disable
+{% endif %}
 {% if development %}
 yarn develop
 {% else %}
 yarn build
+{% if gatsby %}
+chown www-data:www-data /app/public -R
+{% else %}
+chown www-data:www-data /app/build -R
+{% endif %}
 {% endif %}

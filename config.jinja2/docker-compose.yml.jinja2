@@ -43,12 +43,15 @@ services:
 
 {% if react %}
   react:
+    depends_on:
+      - django
     build:
       context: .
       dockerfile: config/react.dockerfile
     image: react:{{projectname}}
     working_dir: /app
     command: /react.entrypoint.sh
+    restart: always
     volumes:
       - ./project/frontend:/app
 {% endif %}
