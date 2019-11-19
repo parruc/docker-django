@@ -51,7 +51,6 @@ services:
     image: react:{{projectname}}
     working_dir: /app
     command: /react.entrypoint.sh
-    restart: always
     volumes:
       - ./project/frontend:/app
 {% endif %}
