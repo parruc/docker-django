@@ -41,9 +41,8 @@ server {
        proxy_set_header Upgrade $http_upgrade;
        proxy_set_header Connection "upgrade";
     {% else %}
-       try_files $uri /index.html;
+       try_files $uri $uri/ $uri/index.html;
        root /var/www/react;
-       index index.html index.htm;
        expires 15d;
     {% endif %}
     }
