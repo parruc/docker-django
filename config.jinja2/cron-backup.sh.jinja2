@@ -1,4 +1,5 @@
 #!/bin/bash
+{% if not development %}
 cd {{ projectpath }}
 mkdir /tmp/backup_{{ projectname }} -p
 docker-compose run --rm --name {{ projectname }}_db_backup db bash -c 'pg_dump --dbname=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@db:5432/$POSTGRES_NAME > /var/lib/postgresql/data/dump.sql'
@@ -20,3 +21,4 @@ git commit -am "backup {{ projectname }}"
 git push origin master
 cd /
 rm -Rf /tmp/backup_{{ projectname }}
+{% endif %}
