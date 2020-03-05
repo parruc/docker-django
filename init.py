@@ -8,6 +8,12 @@ try:
 except:
     from string import ascii_letters
 
+try:
+    from json.decoder import JSONDecodeError
+except ImportError:
+    JSONDecodeError = ValueError
+
+import sys
 import argparse
 import errno
 import json
@@ -72,10 +78,16 @@ try:
     with open(".config", "r") as in_file:
         defaults = json.load(in_file)
         error_loading = False
-except:
+except JSONDecodeError as e:
+    logger.critical("Failed parsing json file: %s", e.message)
+    sys.exit()
+except IOError:
     defaults = {}
     error_loading = True
     logger.warning("Using empty default: could not load config file")
+except:
+    logger.critical("unexpected error reading .config file")
+    sys.exit()
 
 parser = argparse.ArgumentParser(description='Docker mariadb django nginx \
                                               stack configurator.')
