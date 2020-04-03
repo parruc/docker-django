@@ -24,7 +24,16 @@ server {
         {% if certificatespath %}
 #            uwsgi_param HTTPS $env_https;
         {% endif %}
+        proxy_set_header   X-Forwarded-Proto $scheme;
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   Host      $http_host;
+        {% if async %}
+        proxy_redirect off;
+        proxy_buffering off;
+        proxy_pass http://django:8000;
+        {% else %}
         uwsgi_pass django:8000;
         include uwsgi_params;
+        {% endif %}
     }
 }
