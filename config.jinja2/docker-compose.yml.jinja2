@@ -19,7 +19,7 @@ services:
     command: memcached -m 256m
     restart: always
 
-  django:
+  django: &django
     depends_on:
       - db
       - memcached
@@ -52,3 +52,17 @@ services:
       - ./media:/var/www/media
       - ./config/nginx.internal.conf:/etc/nginx/conf.d/default.conf
     restart: always
+
+{% if async %}
+  redis:
+    image: redis
+    restart: always
+
+  django-worker:
+    <<: *django
+    command: /project/bin/python /project/{{projectname}}/manage.py runworker channels
+    depends_on:
+      - db
+      - redis
+      
+{% endif %}

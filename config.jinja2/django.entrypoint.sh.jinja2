@@ -3,14 +3,11 @@ if [ -f /project/{{projectname}}/entrypoint_hook.sh ]; then
     /project/{{projectname}}/entrypoint_hook.sh
 fi &&\
 {% if async %}
-  {% if debug %}
-    exec /project/bin/uvicorn {{projectname}}.asgi:application --reload-dir /project/{{projectname}} --host 0.0.0.0
+  {% if development %}
+    exec /project/bin/uvicorn {{projectname}}.asgi:application --reload --reload-dir /project/{{projectname}} --host 0.0.0.0
   {% else %}
     exec /project/bin/uvicorn {{projectname}}.asgi:application --host 0.0.0.0 --workers 8
   {% endif %}
 {% else %}
   exec /project/bin/uwsgi --ini /project/uwsgi.ini
 {% endif %}
-
-
-asgitest.asgi:application
