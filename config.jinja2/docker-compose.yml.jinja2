@@ -58,11 +58,4 @@ services:
     image: redis
     restart: always
 
-  django-worker:
-    <<: *django
-    command: /project/bin/python /project/{{projectname}}/manage.py runworker channels
-    depends_on:
-      - db
-      - redis
-      
 {% endif %}
