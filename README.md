@@ -109,6 +109,37 @@ static directory will have all files created by the user running all the process
 above. If your architecture requires write permission you will have to change
 the owner::
 
+Makefile commands:
+------------------
+
+Adds system packages on Linux
+
+    make dependencies
+
+Install node project and packages
+
+    make node
+
+Create migrations
+
+    make: migrations
+
+Execute migrations
+
+    make migrate
+
+Extracts and compiles tranlation messages
+
+    make messages
+
+Compiles static resources for production
+
+    make theme
+
+Compiles static resources and starts hot-reload
+
+    make theme_dev
+
 HTTPS
 -----
 

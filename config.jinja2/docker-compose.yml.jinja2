@@ -27,6 +27,7 @@ services:
       context: .
       dockerfile: config/django.dockerfile
     image: python:{{projectname}}
+    working_dir: /project/{{projectname}}
     command: /project/django.entrypoint.sh
     restart: always
     environment:
