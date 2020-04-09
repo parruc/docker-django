@@ -19,7 +19,7 @@ services:
     command: memcached -m 256m
     restart: always
 
-  django: &django
+  django:
     depends_on:
       - db
       - memcached
@@ -28,6 +28,7 @@ services:
       dockerfile: config/django.dockerfile
     image: python:{{projectname}}
     command: /project/django.entrypoint.sh
+    restart: always
     environment:
         DJANGO_SETTINGS_MODULE: {{projectname}}.settings
     volumes:
@@ -35,8 +36,9 @@ services:
       - ./static:/var/www/static
       - ./media:/var/www/media
       - ./config/basesettings.py:/project/{{projectname}}/{{projectname}}/basesettings.py
-    restart: always
 {% if development %}
+      - ./vscode/server-extensions:/root/.vscode-server/extensions
+      - ./vscode/server-insiders-extensions:/root/.vscode-server-insiders/extensions
     stdin_open: true
     tty: true
 {% endif %}

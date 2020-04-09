@@ -1,5 +1,6 @@
 .config
 .vscode
+vscode
 letsencrypt.log
 certbot-auto
 certbot.log
