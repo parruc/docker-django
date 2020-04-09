@@ -13,16 +13,10 @@ services:
       POSTGRES_USER: {{dbuser}}
       POSTGRES_PASSWORD: {{dbpassword}}
 
-  memcached:
-    image: memcached:latest
-    mem_limit: 256m
-    command: memcached -m 256m
-    restart: always
-
   django:
     depends_on:
       - db
-      - memcached
+      - redis
     build:
       context: .
       dockerfile: config/django.dockerfile
@@ -56,9 +50,6 @@ services:
       - ./config/nginx.internal.conf:/etc/nginx/conf.d/default.conf
     restart: always
 
-{% if async %}
   redis:
     image: redis
     restart: always
-
-{% endif %}
