@@ -10,7 +10,10 @@ migrations:
 migrate:
 	docker-compose exec django ../bin/python manage.py migrate --noinput
 
-messages:
+locals:
+	docker-compose exec django ../bin/python manage.py createlocals
+
+messages: locals
 	docker-compose exec django ../bin/python manage.py makemessages -a
 	docker-compose exec django ../bin/python manage.py compilemessages
 	docker-compose restart django
