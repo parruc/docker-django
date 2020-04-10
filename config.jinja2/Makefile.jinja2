@@ -15,18 +15,19 @@ messages:
 	docker-compose exec django ../bin/python manage.py compilemessages
 	docker-compose restart django
 
+{% if  development %}
 theme:
-	cd project/{{ projectname }}/layout; npm run build; cd ..
-	docker-compose exec django ../bin/python manage.py collectstatic --noinput
-
-theme_dev:
 	cd project/{{ projectname }}/layout; npm run dev; cd ..
 	docker-compose exec django ../bin/python manage.py collectstatic --noinput -l
 	cd project/{{ projectname }}/layout; npm run watch; cd ..
+{% else %}
+theme:
+	cd project/{{ projectname }}/layout; npm run build; cd ..
+	docker-compose exec django ../bin/python manage.py collectstatic --noinput
+{% endif %}
 
 pull:
 	cd project/{{ projectname }}; git pull
 
 update: pull migrate messages theme
 
-update_dev: pull migrate messages theme_dev

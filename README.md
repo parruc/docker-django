@@ -132,21 +132,13 @@ Extracts and compiles tranlation messages
 
     make messages
 
-Compiles static resources for production
+Compiles static resources and, if in dev ,starts hot reload
 
     make theme
-
-Compiles static resources and starts hot-reload
-
-    make theme_dev
 
 Updates the repository and runs pull, migrate, messages and theme
 
     make update
-
-Exactly the same as update but starts layout dev server
-
-    make update_dev
 
 HTTPS
 -----
