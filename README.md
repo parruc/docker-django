@@ -140,6 +140,10 @@ Compiles static resources and starts hot-reload
 
     make theme_dev
 
+Updates the repository and run all necessary stuff except theme
+
+    make update
+
 HTTPS
 -----
 
