@@ -27,4 +27,6 @@ theme_dev:
 pull:
 	cd project/{{ projectname }}; git pull
 
-update: pull migrate messages     
+update: pull migrate messages theme
+
+update_dev: pull migrate messages theme_dev
