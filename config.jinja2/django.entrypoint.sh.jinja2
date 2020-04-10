@@ -6,7 +6,7 @@ fi &&\
   {% if development %}
     exec /project/bin/uvicorn {{projectname}}.asgi:application --reload --reload-dir /project/{{projectname}} --host 0.0.0.0 --log-level debug
   {% else %}
-    exec /project/bin/uvicorn {{projectname}}.asgi:application --host 0.0.0.0 --workers 8
+    exec /project/bin/uvicorn {{projectname}}.asgi:application --host 0.0.0.0
   {% endif %}
 {% else %}
   exec /project/bin/uwsgi --ini /project/uwsgi.ini

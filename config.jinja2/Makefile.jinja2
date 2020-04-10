@@ -23,3 +23,8 @@ theme_dev:
 	cd project/{{ projectname }}/layout; npm run dev; cd ..
 	docker-compose exec django ../bin/python manage.py collectstatic --noinput -l
 	cd project/{{ projectname }}/layout; npm run watch; cd ..
+
+pull:
+	cd project/{{ projectname }}; git pull
+
+update: pull migrate messages     
