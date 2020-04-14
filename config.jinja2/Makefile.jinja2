@@ -19,12 +19,12 @@ messages: locals
 	docker-compose restart django
 
 {% if  development %}
-theme:
+theme: node
 	cd project/{{ projectname }}/layout; npm run dev; cd ..
 	docker-compose exec django ../bin/python manage.py collectstatic --noinput -l
 	cd project/{{ projectname }}/layout; npm run watch; cd ..
 {% else %}
-theme:
+theme: node
 	cd project/{{ projectname }}/layout; npm run build; cd ..
 	docker-compose exec django ../bin/python manage.py collectstatic --noinput
 {% endif %}
