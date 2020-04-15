@@ -32,5 +32,8 @@ theme: node
 pull:
 	cd project/{{ projectname }}; git pull
 
-update: pull migrate messages theme
+fixtures:
+	 docker-compose exec django ../bin/python manage.py loaddata initial_users initial_groups initial_profiles
+
+update: pull migrate fixtures messages theme
 
