@@ -5,10 +5,10 @@ node:
 	cd project/{{ projectname }}/layout; npm install
 
 migrations:
-	docker-compose exec django ../bin/python manage.py makemigrations --noinput
+	docker-compose exec django ../bin/python manage.py makemigrations
 
 migrate:
-	docker-compose exec django ../bin/python manage.py migrate --noinput
+	docker-compose exec django ../bin/python manage.py migrate
 
 locals:
 	docker-compose exec django ../bin/python manage.py createlocals
