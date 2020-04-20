@@ -25,7 +25,7 @@ theme: node
 	cd project/{{ projectname }}/layout; npm run watch
 
 fixtures:
-	docker-compose exec django ../bin/python manage.py loaddata initial_users initial_exhibitors initial_downloadarea initial_showcase initial_link initial_videos
+	docker-compose exec django ../bin/python manage.py loaddata initial_users initial_exhibitors initial_downloadarea initial_showcase initial_links initial_videos
 
 {% else %}
 theme: node
