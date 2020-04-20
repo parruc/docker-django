@@ -31,6 +31,7 @@ fixtures:
 theme: node
 	cd project/{{ projectname }}/layout; npm run build
 	docker-compose exec django ../bin/python manage.py collectstatic --noinput
+	docker-compose restart django
 fixtures:
 	echo "Skipping fixtures in production"
 {% endif %}
