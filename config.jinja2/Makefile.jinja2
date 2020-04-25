@@ -11,7 +11,7 @@ migrate:
 	docker-compose exec django ../bin/python manage.py migrate
 
 messages:
-	docker-compose exec django ../bin/python manage.py  makeallmessages -a
+	docker-compose exec django ../bin/python manage.py  makeallmessages -a -i node_modules
 	docker-compose exec django ../bin/python manage.py compilemessages
 	docker-compose restart django
 
