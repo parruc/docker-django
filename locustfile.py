@@ -15,7 +15,7 @@ class UserBehaviour(TaskSet):
         self.client.post("/it/utenti/entra/", {"username":"divani", "password":"EF&3xbHuSZdY"}, headers={"X-CSRFToken": csrftoken})
 
     def logout(self):
-        self.client.post("/it/utenti/esci/")
+        self.client.get("/it/utenti/esci/")
 
     @task(1)
     def profile(self):
