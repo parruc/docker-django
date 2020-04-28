@@ -5,34 +5,34 @@ node:
 	cd project/{{ projectname }}/layout; npm install
 
 migrations:
-	docker-compose exec django ../bin/python manage.py makemigrations
+	docker-compose exec wsgi ../bin/python manage.py makemigrations
 
 migrate:
-	docker-compose exec django ../bin/python manage.py migrate
+	docker-compose exec wsgi ../bin/python manage.py migrate
 
 messages:
 	{% if  development %}
-	docker-compose exec django ../bin/python manage.py  makeallmessages -a -i node_modules
-	docker-compose exec django ../bin/python manage.py compilemessages
+	docker-compose exec wsgi ../bin/python manage.py  makeallmessages -a -i node_modules
+	docker-compose exec wsgi ../bin/python manage.py compilemessages
 	{% else %}
-	docker-compose exec django ../bin/python manage.py compilemessages
-	docker-compose restart django
+	docker-compose exec wsgi ../bin/python manage.py compilemessages
+	docker-compose restart wsgi {%if async %}asgi{% endif %}
 	{% endif %}
 
 {% if  development %}
 theme: node
 	cd project/{{ projectname }}/layout; npm run dev
-	docker-compose exec django ../bin/python manage.py collectstatic --noinput -l
+	docker-compose exec wsgi ../bin/python manage.py collectstatic --noinput -l
 	cd project/{{ projectname }}/layout; npm run watch
 
 fixtures:
-	docker-compose exec django ../bin/python manage.py loaddata initial_users initial_exhibitors initial_downloadarea initial_showcase initial_links initial_videos
+	docker-compose exec wsgi ../bin/python manage.py loaddata initial_users initial_exhibitors initial_downloadarea initial_showcase initial_links initial_videos
 
 {% else %}
 theme: node
 	cd project/{{ projectname }}/layout; npm run build
-	docker-compose exec django ../bin/python manage.py collectstatic --noinput
-	docker-compose restart django
+	docker-compose exec wsgi ../bin/python manage.py collectstatic --noinput
+	docker-compose restart wsgi {% if async %}asgi{% endif%}
 fixtures:
 	echo "Skipping fixtures in production"
 {% endif %}
