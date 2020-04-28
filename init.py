@@ -127,9 +127,11 @@ parser.add_argument('-pv', '--pythonversion', help='Python version to use as bas
 parser.add_argument('-sc', '--secretkey', help='django project secret key',
                     required=False, default=defaults.get("secretkey",
                                                          get_random_string(50)))
+parser.add_argument('-scale', '--scale', help='django instances number',
+                    required=False, default=defaults.get("scale", 1)),
+
 parser.add_argument('-ul', '--uploadlimit', help='max MB uplodable',
-                    required=False,
-                    default=defaults.get("uploadlimit", '2'))
+                    required=False, default=defaults.get("uploadlimit"))
 parser.add_argument('-br', '--backuprepository', help='backup git repo',
                     required=False, default=defaults.get("backuprepository",
                                                          None))

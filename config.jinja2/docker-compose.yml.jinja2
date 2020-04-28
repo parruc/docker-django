@@ -1,14 +1,16 @@
-version: '2'
+version: '3.8'
+
 services:
+
   db:
     build:
       context: .
       dockerfile: config/postgres.dockerfile
     image: postgres:{{projectname}}
+    command: postgres -c 'max_connections=500' -c 'shared_buffers=512MB'
     volumes:
       - ./db:/var/lib/postgresql/data
     restart: always
-    command: postgres -c 'max_connections=500' -c 'shared_buffers=512MB'
     environment:
       POSTGRES_DB: {{dbname}}
       POSTGRES_USER: {{dbuser}}
@@ -22,8 +24,8 @@ services:
       context: .
       dockerfile: config/django.dockerfile
     image: python:{{projectname}}
-    working_dir: /project/{{projectname}}
     command: /project/django.entrypoint.wsgi.sh
+    working_dir: /project/{{projectname}}
     restart: always
     environment:
         DJANGO_SETTINGS_MODULE: {{projectname}}.settings
@@ -40,11 +42,9 @@ services:
 {% endif %}
 
 {% if async %}
-
   asgi: 
     <<: *django
     command: /project/django.entrypoint.asgi.sh
-
 {% endif %}
 
   web:

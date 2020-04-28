@@ -4,6 +4,14 @@ dependencies:
 node:
 	cd project/{{ projectname }}/layout; npm install
 
+up:
+	docker-compose up -d --scale wsgi={{ scale }}
+
+down:
+	docker-compose down
+
+restart: down up
+
 migrations:
 	docker-compose exec wsgi ../bin/python manage.py makemigrations
 
@@ -13,11 +21,11 @@ migrate:
 messages:
 	{% if  development %}
 	docker-compose exec wsgi ../bin/python manage.py  makeallmessages -a -i node_modules
-	docker-compose exec wsgi ../bin/python manage.py compilemessages
-	{% else %}
-	docker-compose exec wsgi ../bin/python manage.py compilemessages
-	docker-compose restart wsgi {%if async %}asgi{% endif %}
 	{% endif %}
+	docker-compose exec wsgi ../bin/python manage.py compilemessages
+
+clearmessages:
+	cd project/{{ projectname }}; git checkout */locale/*/LC_MESSAGES/*.po
 
 {% if  development %}
 theme: node
@@ -32,7 +40,7 @@ fixtures:
 theme: node
 	cd project/{{ projectname }}/layout; npm run build
 	docker-compose exec wsgi ../bin/python manage.py collectstatic --noinput
-	docker-compose restart wsgi {% if async %}asgi{% endif%}
+
 fixtures:
 	echo "Skipping fixtures in production"
 {% endif %}
@@ -40,7 +48,7 @@ fixtures:
 pull:
 	cd project/{{ projectname }}; git pull
 
-update: pull migrate fixtures messages theme
+update: pull migrate fixtures messages theme restart
 
 logs:
 	docker-compose logs -f --timestamp --tail 100

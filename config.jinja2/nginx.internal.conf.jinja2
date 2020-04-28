@@ -1,8 +1,7 @@
 upstream wsgi_upstream {
-    server {{projectname}}_wsgi_1:8000;
-    server {{projectname}}_wsgi_2:8000;
-    server {{projectname}}_wsgi_3:8000;
-    server {{projectname}}_wsgi_4:8000;
+  {% for s in range(scale) %}
+    server {{projectname}}_wsgi_{{ s+1 }}:8000;
+  {% endfor %}
 }
 upstream asgi_upstream {
     server {{projectname}}_asgi_1:8000;
