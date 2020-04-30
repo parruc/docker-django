@@ -1,4 +1,7 @@
 from locust import HttpLocust, TaskSet, task, between
+import resource
+
+resource.setrlimit(resource.RLIMIT_NOFILE, (999999, 999999))
 
 class UserBehaviour(TaskSet):
     def on_start(self):
@@ -10,28 +13,28 @@ class UserBehaviour(TaskSet):
         self.logout()
 
     def login(self):
-        response = self.client.get("/it/utenti/entra/")
+        response = self.client.get("/utenti/entra/")
         csrftoken = response.cookies['csrftoken']
-        self.client.post("/it/utenti/entra/", {"username":"divani", "password":"EF&3xbHuSZdY"}, headers={"X-CSRFToken": csrftoken})
+        self.client.post("/utenti/entra/", {"username":"divani", "password":"EF&3xbHuSZdY"}, headers={"X-CSRFToken": csrftoken})
 
     def logout(self):
-        self.client.get("/it/utenti/esci/")
+        self.client.get("/utenti/esci/")
 
     @task(1)
     def profile(self):
-        self.client.get("/it/utenti/parruc/")
+        self.client.get("/utenti/parruc/")
 
     @task(2)
     def networking(self):
-        self.client.get("/it/utenti/networking/")
+        self.client.get("/utenti/networking/")
 
     @task(3)
     def calendar(self):
-        self.client.get("/it/eventi/")
+        self.client.get("/eventi/")
 
     @task(4)
     def exhibitor(self):
-        self.client.get("/it/espositori/divani-e-divani/")
+        self.client.get("/espositori/divani-e-divani/")
 
 
 class WebsiteUser(HttpLocust):
