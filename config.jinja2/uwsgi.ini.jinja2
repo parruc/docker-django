@@ -23,9 +23,8 @@ vacuum=true
 socket=:8000
 reload-on-exception=true
 {% if development %}
-python-autoreload=1
+py-autoreload = 2
 honour-stdin=true
-touch-reload = /project/{{ projectname }}/{{ projectname }}/settings.py
 {% else %}
 harakiri=30
 {% endif %}
