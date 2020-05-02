@@ -13,20 +13,20 @@ class UserBehaviour(TaskSet):
         self.logout()
 
     def login(self):
-        response = self.client.get("/utenti/entra/")
+        response = self.client.get("/utente/entra/")
         csrftoken = response.cookies['csrftoken']
-        self.client.post("/utenti/entra/", {"username":"divani", "password":"EF&3xbHuSZdY"}, headers={"X-CSRFToken": csrftoken})
+        self.client.post("/utente/entra/", {"username":"divani", "password":"EF&3xbHuSZdY"}, headers={"X-CSRFToken": csrftoken})
 
     def logout(self):
-        self.client.get("/utenti/esci/")
+        self.client.get("/utente/esci/")
 
     @task(1)
     def profile(self):
-        self.client.get("/utenti/parruc/")
+        self.client.get("/utente/parruc/")
 
     @task(2)
     def networking(self):
-        self.client.get("/utenti/networking/")
+        self.client.get("/utente/networking/")
 
     @task(3)
     def calendar(self):
