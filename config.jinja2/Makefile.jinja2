@@ -38,7 +38,7 @@ theme: node
 	cd project/{{ projectname }}/layout; npm run watch
 
 fixtures:
-	docker-compose exec wsgi ../bin/python manage.py loaddata initial_users initial_exhibitors initial_downloadarea initial_showcase initial_links initial_videos initial_images
+	docker-compose exec wsgi ../bin/python manage.py loaddata initial_users initial_exhibitors initial_downloadarea initial_showcase initial_links initial_videos initial_images initial_events
 
 {% else %}
 theme: node
