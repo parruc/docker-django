@@ -6,6 +6,10 @@ node:
 
 up:
 	docker-compose up -d --scale wsgi={{ scale }}
+	{% if not development %}
+	chown www-data:www-data static -R
+	chown www-data:www-data media -R
+	{% endif %}
 
 down:
 	docker-compose down

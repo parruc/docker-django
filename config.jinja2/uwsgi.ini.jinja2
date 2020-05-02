@@ -4,8 +4,10 @@ chdir=/project/{{projectname}}
 virtualenv = /project/
 # python path to the wsgi module, check if you have one
 module={{projectname}}.wsgi:application
-# uid=www-data
-# gid=www-data
+{% if not development %}
+uid=www-data
+gid=www-data
+{% endif %}
 # this switch tells uwsgi to spawn a master process,
 # that will dynamically spawn new child processes for
 # server requests
@@ -24,6 +26,7 @@ socket=:8000
 reload-on-exception=true
 {% if development %}
 py-autoreload = 2
+touch-reload = /project/{{ projectname }}/{{ projectname }}/settings.py
 honour-stdin=true
 {% else %}
 harakiri=30
