@@ -14,7 +14,6 @@ gid=www-data
 master = true
 workers = 4
 mules = 0
-mule-harakiri = 600
 # uwsgi stores the pid of your master process here
 pidfile=/project/uwsgi.pid
 vacuum=true
@@ -23,11 +22,11 @@ vacuum=true
 # sure the home dir is readable and executable by
 # nginx
 socket=:8000
-reload-on-exception=true
 {% if development %}
 py-autoreload = 2
-touch-reload = /project/{{ projectname }}/{{ projectname }}/settings.py
 honour-stdin=true
 {% else %}
 harakiri=30
+mule-harakiri = 600
+touch-reload=/project/{{ projectname }}/{{ projectname }}/settings.py
 {% endif %}
