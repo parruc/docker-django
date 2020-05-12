@@ -1,6 +1,7 @@
 __pycache__
 .config
 .vscode
+pyvenv.cfg
 vscode
 letsencrypt.log
 certbot-auto
