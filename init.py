@@ -29,7 +29,7 @@ default_csp = ("default-src 'self'; img-src 'self' data: *; style-src 'self' "
                "'unsafe-inline' 'unsafe-eval' *.googleapis.com; child-src "
                "'self' *.youtube.com; connect-src 'self'; media-src 'self'")
 
-password_chars = ascii_letters + string.digits + ",;.:-_()="
+password_chars = ascii_letters + string.digits + ",;.:-_="
 
 
 def get_random_string(size=32, chars=password_chars):
