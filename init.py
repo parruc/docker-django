@@ -87,7 +87,7 @@ parser.add_argument('-p', '--port',
                     default=defaults.get("port", "7080"), required=False)
 parser.add_argument('-cp', '--certificatespath',
                     help='Use this parameter for certificates path',
-                    default=defaults.get("certificatespath", False),
+                    default=defaults.get("certificatespath", ""),
                     required=False)
 parser.add_argument('-csp', '--contentsecuritypolicy',
                     help='Use this parameter for the value of the content '
