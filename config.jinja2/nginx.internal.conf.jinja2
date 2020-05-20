@@ -3,9 +3,11 @@ upstream wsgi_upstream {
     server {{projectname}}_wsgi_{{ s+1 }}:8000;
   {% endfor %}
 }
+{% if async %}
 upstream asgi_upstream {
     server {{projectname}}_asgi_1:8000;
 }
+{% endif %}
 
 server {
     listen 80;

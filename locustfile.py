@@ -1,5 +1,9 @@
-from locust import HttpLocust, TaskSet, task, between
 import resource
+
+from locust import HttpLocust
+from locust import TaskSet
+from locust import between
+from locust import task
 
 resource.setrlimit(resource.RLIMIT_NOFILE, (999999, 999999))
 
@@ -21,8 +25,8 @@ class UserBehaviour(TaskSet):
         self.client.get("/utente/esci/")
 
     @task(1)
-    def profile(self):
-        self.client.get("/utente/parruc/")
+    def user(self):
+        self.client.get("/utente/1/")
 
     @task(2)
     def networking(self):

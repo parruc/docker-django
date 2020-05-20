@@ -4,19 +4,16 @@ chdir=/project/{{projectname}}
 virtualenv = /project/
 # python path to the wsgi module, check if you have one
 module={{projectname}}.wsgi:application
-{% if not development %}
-uid=www-data
-gid=www-data
-{% endif %}
 # this switch tells uwsgi to spawn a master process,
 # that will dynamically spawn new child processes for
 # server requests
-master = true
+master
+vacuum
+reload-on-exception
 workers = 4
 mules = 0
 # uwsgi stores the pid of your master process here
 pidfile=/project/uwsgi.pid
-vacuum=true
 # this is where you need to point nginx to,
 # if you chose to put this in project home make
 # sure the home dir is readable and executable by
@@ -24,9 +21,12 @@ vacuum=true
 socket=:8000
 {% if development %}
 py-autoreload = 2
-honour-stdin=true
+honour-stdin
 {% else %}
+uid=www-data
+gid=www-data
 harakiri=30
 mule-harakiri = 600
 touch-reload=/project/{{ projectname }}/{{ projectname }}/settings.py
 {% endif %}
+
