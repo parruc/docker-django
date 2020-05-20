@@ -7,7 +7,7 @@ cd /tmp/backup_{{ projectname }}
 git init
 git remote add origin {{ backuprepository }}
 git pull --no-edit origin master 
-rm -Rf /tmp/backup_{{ projectname }}/www
+rm -Rf /tmp/backup_{{ projectname }}/project
 cd {{ projectpath }}
 cp db/dump.sql /tmp/backup_{{ projectname }}/
 {% for backupfolder in backupfolders %}
