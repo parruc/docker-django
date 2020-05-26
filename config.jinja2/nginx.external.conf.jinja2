@@ -70,7 +70,7 @@ server {
     server_name {{hostname}};
     access_log /var/log/nginx/{{hostname}}.access.log;
     error_log /var/log/nginx/{{hostname}}.error.log;
-    client_max_body_size 20M;
+    client_max_body_size {{ uploadlimit }}M;
 
     location / {
         proxy_set_header X-Forwarded-Proto $scheme;
