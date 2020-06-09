@@ -105,6 +105,8 @@ parser.add_argument('-g', '--gis',
                     help="Use this parameter to add GIS support to postgres",
                     default=defaults.get("gis", False),
                     action='store_true')
+parser.add_argument('-l', '--libraries', help='apt requirements', required=False,
+                    default=defaults.get("libraries", []))
 parser.add_argument('-r', '--requirements', help='Django app requirements', required=False,
                     default=defaults.get("requirements", []))
 parser.add_argument('-rd', '--requirementsdev', help='Django app development requirements', required=False,
@@ -127,6 +129,9 @@ parser.add_argument('-pv', '--pythonversion', help='Python version to use as bas
 parser.add_argument('-sc', '--secretkey', help='django project secret key',
                     required=False, default=defaults.get("secretkey",
                                                          get_random_string(50)))
+parser.add_argument('-sp', '--spoolers', help='add spool processes',
+                    required=False, default=defaults.get("spoolers",
+                                                         []))
 parser.add_argument('-scale', '--scale', help='django instances number',
                     required=False, default=defaults.get("scale", 1)),
 
