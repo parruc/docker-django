@@ -20,7 +20,7 @@ class WebsiteUser(HttpUser):
     def login(self):
         response = self.client.get("/utente/entra/")
         csrftoken = response.cookies['csrftoken']
-        self.client.post("/utente/entra/", {"username":"espositore1@matteoparrucci.it", "password":""}, headers={"X-CSRFToken": csrftoken})
+        self.client.post("/utente/entra/", {"username":"loadtests@matteoparrucci.it", "password":"8ByPPVvnXM2D"}, headers={"X-CSRFToken": csrftoken})
 
     def logout(self):
         self.client.get("/utente/esci/")
