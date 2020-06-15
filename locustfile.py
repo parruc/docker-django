@@ -1,13 +1,14 @@
 import resource
 
-from locust import HttpLocust
-from locust import TaskSet
+from locust import HttpUser
 from locust import between
 from locust import task
 
 resource.setrlimit(resource.RLIMIT_NOFILE, (999999, 999999))
 
-class UserBehaviour(TaskSet):
+class WebsiteUser(HttpUser):
+    wait_time = between(5, 9)
+
     def on_start(self):
         """ on_start is called when a Locust start before any task is scheduled """
         self.login()
@@ -19,7 +20,7 @@ class UserBehaviour(TaskSet):
     def login(self):
         response = self.client.get("/utente/entra/")
         csrftoken = response.cookies['csrftoken']
-        self.client.post("/utente/entra/", {"username":"divani", "password":"EF&3xbHuSZdY"}, headers={"X-CSRFToken": csrftoken})
+        self.client.post("/utente/entra/", {"username":"espositore1@matteoparrucci.it", "password":""}, headers={"X-CSRFToken": csrftoken})
 
     def logout(self):
         self.client.get("/utente/esci/")
@@ -39,8 +40,3 @@ class UserBehaviour(TaskSet):
     @task(4)
     def exhibitor(self):
         self.client.get("/espositori/divani-e-divani/")
-
-
-class WebsiteUser(HttpLocust):
-    task_set = UserBehaviour
-    wait_time = between(5, 9)
