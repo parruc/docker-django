@@ -11,7 +11,11 @@ master
 vacuum
 reload-on-exception
 workers = 4
-mules = 0
+{% for spooler in spoolers %}
+import = {{projectname}}.{{spooler}}
+spooler = {{projectname}}/{{spooler}}
+{% if loop.last %}spooler-processes = {{ spoolers|length }}{% endif %}
+{% endfor %}
 # uwsgi stores the pid of your master process here
 pidfile=/project/uwsgi.pid
 # this is where you need to point nginx to,
@@ -29,3 +33,4 @@ harakiri=30
 mule-harakiri = 600
 touch-reload=/project/{{ projectname }}/{{ projectname }}/settings.py
 {% endif %}
+
