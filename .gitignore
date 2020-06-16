@@ -8,6 +8,7 @@ certbot-auto
 certbot.log
 pip-selfcheck.json
 settings.py
+locustfile.py
 *.sql
 config/
 db/
