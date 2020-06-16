@@ -2,3 +2,5 @@ setuptools
 certbot
 jinja2
 python-crontab
+beautifulsoup4
+locust
