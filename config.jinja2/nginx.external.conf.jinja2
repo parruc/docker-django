@@ -24,7 +24,7 @@ server {
 }
 
 server {
-    listen {{portexternalssl}} ssl;
+    listen localhost:{{portexternalssl}} ssl;
     ssl_certificate {{ certificatespath }}/fullchain.pem;
     ssl_certificate_key {{ certificatespath }}/privkey.pem;
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -35,7 +35,7 @@ server {
 }
 
 server {
-        listen {{ portexternalssl}} ssl;
+        listen localhost:{{ portexternalssl}} ssl;
 
         ssl_certificate {{ certificatespath }}/fullchain.pem;
         ssl_certificate_key {{ certificatespath }}/privkey.pem;
