@@ -82,7 +82,13 @@ parser = argparse.ArgumentParser(description='Docker mariadb django nginx \
 parser.add_argument('-hn', '--hostname', help='Host name',
                     default=defaults.get("hostname", "example.com"),
                     required=False)
-parser.add_argument('-p', '--port',
+parser.add_argument('-pe', '--portexternal',
+                    help='Http external nginx port number publically visible',
+                    default=defaults.get("portexternal", "80"), required=False)
+parser.add_argument('-pes', '--portexternalssl',
+                    help='Https external nginx port number publically visible',
+                    default=defaults.get("portexternalssl", "443"), required=False)
+parser.add_argument('-pi', '--portinternal',
                     help='Http internal nginx port number publically visible',
                     default=defaults.get("port", "7080"), required=False)
 parser.add_argument('-cp', '--certificatespath',

@@ -12,7 +12,7 @@ add_header X-Content-Type-Options "nosniff";
 {% if certificatespath %}
 
 server {
-    listen 80;
+    listen {{ portexternal}};
     server_name {{ hostname }} www.{{hostname}};
     location ^~ /.well-known/acme-challenge/ {
         default_type "text/plain";
@@ -24,7 +24,7 @@ server {
 }
 
 server {
-    listen 443 ssl;
+    listen {{portexternalssl}} ssl;
     ssl_certificate {{ certificatespath }}/fullchain.pem;
     ssl_certificate_key {{ certificatespath }}/privkey.pem;
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -35,7 +35,7 @@ server {
 }
 
 server {
-        listen 443 ssl;
+        listen {{ portexternalssl}} ssl;
 
         ssl_certificate {{ certificatespath }}/fullchain.pem;
         ssl_certificate_key {{ certificatespath }}/privkey.pem;
@@ -46,7 +46,7 @@ server {
 {% else %}
 
 server {
-    listen 80;
+    listen {{ portexternal }};
     server_name www.{{hostname}};
     location ^~ /.well-known/acme-challenge/ {
         default_type "text/plain";
@@ -58,7 +58,7 @@ server {
 }
 
 server {
-    listen 80;
+    listen {{ portexternal }};
     location ^~ /.well-known/acme-challenge/ {
         default_type "text/plain";
         root /var/www/certbot/;
@@ -76,7 +76,7 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header Host $host;
-        proxy_pass http://localhost:{{ port }};
+        proxy_pass http://localhost:{{ portinternal }};
     }
 
     {% if async %}
@@ -84,7 +84,7 @@ server {
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
-        proxy_pass http://localhost:{{ port }};
+        proxy_pass http://localhost:{{ portinternal }};
     }
     {% endif %}
 }

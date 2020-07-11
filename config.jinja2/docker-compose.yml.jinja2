@@ -55,7 +55,7 @@ services:
 {% endif %}
     image: nginx:latest
     ports:
-      - "127.0.0.1:{{port}}:80"
+      - "127.0.0.1:{{portinternal}}:80"
     volumes:
       - ./static:/var/www/static
       - ./media:/var/www/media
