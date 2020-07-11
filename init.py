@@ -90,7 +90,7 @@ parser.add_argument('-pes', '--portexternalssl',
                     default=defaults.get("portexternalssl", "443"), required=False)
 parser.add_argument('-pi', '--portinternal',
                     help='Http internal nginx port number publically visible',
-                    default=defaults.get("port", "7080"), required=False)
+                    default=defaults.get("portinternal", "7080"), required=False)
 parser.add_argument('-cp', '--certificatespath',
                     help='Use this parameter for certificates path',
                     default=defaults.get("certificatespath", ""),
