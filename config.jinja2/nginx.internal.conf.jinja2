@@ -40,12 +40,12 @@ server {
 
     {% if async %}
     location /ws/ {
+        proxy_pass http://asgi_upstream;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
+        proxy_set_header Connection "Upgrade";
         proxy_set_header Host $host;
         proxy_redirect off;
-        proxy_pass http://asgi_upstream;
     }
     {% endif %}
 }
