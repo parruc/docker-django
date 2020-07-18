@@ -14,7 +14,16 @@ up:
 down:
 	docker-compose down
 
-restart: down up
+recreate: down up
+
+restart:
+	docker-compose restart
+
+reload:
+	touch project/{{ projectname }}/{{ projectname }}/settings.py
+
+clearcache:
+	docker-compose exec redis redis-cli FLUSHALL
 
 migrations:
 	docker-compose exec wsgi ../bin/python manage.py makemigrations
@@ -52,7 +61,7 @@ fixtures:
 pull:
 	cd project/{{ projectname }}; git pull
 
-update: pull migrate fixtures messages theme restart
+update: pull migrate fixtures messages theme reload clearcache
 
 logs:
 	docker-compose logs -f --timestamp --tail 100
