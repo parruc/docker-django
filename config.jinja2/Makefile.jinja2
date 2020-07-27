@@ -53,7 +53,7 @@ clearmessages:
 {% if  development %}
 theme: node
 	cd project/{{ projectname }}/layout; npm run dev
-	docker-compose exec wsgi ../bin/python manage.py collectstatic --noinput -l
+	docker-compose exec wsgi ../bin/python manage.py collectstatic --noinput -l -i */report.html
 	cd project/{{ projectname }}/layout; npm run watch
 
 fixtures:
