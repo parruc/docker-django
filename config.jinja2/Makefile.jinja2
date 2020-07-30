@@ -35,6 +35,10 @@ reload:
 clearcache:
 	docker-compose exec redis redis-cli FLUSHALL
 
+chown:
+	chown www-data:www-data static -R
+	chown www-data:www-data media -R
+
 migrations:
 	docker-compose exec wsgi ../bin/python manage.py makemigrations
 
@@ -47,9 +51,6 @@ messages:
 	{% endif %}
 	docker-compose exec wsgi ../bin/python manage.py compilemessages
 
-clearmessages:
-	cd project/{{ projectname }}; git checkout */locale/*/LC_MESSAGES/*.po
-
 {% if  development %}
 theme: node
 	cd project/{{ projectname }}/layout; npm run dev
@@ -59,6 +60,7 @@ theme: node
 fixtures:
 	docker-compose exec wsgi ../bin/python manage.py loaddata initial_data
 
+update: pull migrate fixtures messages theme 
 {% else %}
 theme: node
 	cd project/{{ projectname }}/layout; npm run build
@@ -66,6 +68,8 @@ theme: node
 
 fixtures:
 	echo "Skipping fixtures in production"
+
+update: pull migrate fixtures messages theme chown clearcache restart 
 {% endif %}
 
 pull:
