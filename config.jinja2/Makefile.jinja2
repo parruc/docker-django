@@ -5,7 +5,7 @@ node:
 	cd project/{{ projectname }}/layout; npm install
 
 cashtable:
-	 docker-compose exec wsgi ../bin/python manage.py createcachetable 
+	 docker-compose exec wsgi python manage.py createcachetable 
 
 init:
 	sudo ./init.py
@@ -40,31 +40,31 @@ chown:
 	chown www-data:www-data media -R
 
 migrations:
-	docker-compose exec wsgi ../bin/python manage.py makemigrations
+	docker-compose exec wsgi python manage.py makemigrations
 
 migrate:
-	docker-compose exec wsgi ../bin/python manage.py migrate
+	docker-compose exec wsgi python manage.py migrate
 
 messages:
 	{% if  development %}
-	docker-compose exec wsgi ../bin/python manage.py  makeallmessages -a -i node_modules
+	docker-compose exec wsgi python manage.py  makeallmessages -a -i node_modules
 	{% endif %}
-	docker-compose exec wsgi ../bin/python manage.py compilemessages
+	docker-compose exec wsgi python manage.py compilemessages
 
 {% if  development %}
 theme: node
 	cd project/{{ projectname }}/layout; npm run dev
-	docker-compose exec wsgi ../bin/python manage.py collectstatic --noinput -l -i */report.html
+	docker-compose exec wsgi python manage.py collectstatic --noinput -l -i */report.html
 	cd project/{{ projectname }}/layout; npm run watch
 
 fixtures:
-	docker-compose exec wsgi ../bin/python manage.py loaddata initial_data
+	docker-compose exec wsgi python manage.py loaddata initial_data
 
 update: pull migrate fixtures messages theme 
 {% else %}
 theme: node
 	cd project/{{ projectname }}/layout; npm run build
-	docker-compose exec wsgi ../bin/python manage.py collectstatic --noinput
+	docker-compose exec wsgi python manage.py collectstatic --noinput
 
 fixtures:
 	echo "Skipping fixtures in production"

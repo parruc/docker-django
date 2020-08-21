@@ -3,4 +3,4 @@ if [ -f /project/{{projectname}}/entrypoint_hook.sh ]; then
     /project/{{projectname}}/entrypoint_hook.sh
 fi &&\
 
-exec /project/bin/uwsgi --ini /project/uwsgi.ini
+exec uwsgi --ini /project/uwsgi.ini
