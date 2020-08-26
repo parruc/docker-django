@@ -16,7 +16,13 @@ install: dependencies init node up update cashtable theme
 
 up:
 	docker-compose up -d --scale wsgi={{ scale }}
+        {% if spoolers %}
+	mkdir project/{{ projectname }}/{{ projectname }}/spooler
+        {% endif %}
 	{% if not development %}
+        {% if spoolers %}
+	chown www-data:www-data project/{{ projectname }}/{{ projectname }}/spooler
+        {% endif %}
 	chown www-data:www-data static -R
 	chown www-data:www-data media -R
 	{% endif %}
@@ -33,7 +39,7 @@ reload:
 	touch project/{{ projectname }}/{{ projectname }}/settings.py
 
 clearcache:
-	docker-compose exec redis redis-cli FLUSHALL
+	docker-compose exec redis redis-cli -n 1 FLUSHDB
 
 chown:
 	chown www-data:www-data static -R
