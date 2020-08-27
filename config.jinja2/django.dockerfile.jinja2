@@ -1,14 +1,12 @@
 FROM python:{{ pythonversion }}
-RUN apt update && apt install -y binutils libproj-dev gdal-bin gettext python-dev python3-dev
 {% if libraries %}RUN apt update && apt install -y {{ libraries|join(' ') }}{%endif%}
+{% if gis %}RUN apt update && apt install -y  binutils libproj-dev gdal-bin{% endif %}
 RUN mkdir -p /project
-RUN pip3 install virtualenv
-RUN virtualenv --python=python{{pythonversion}} /project/
 COPY config/requirements.txt /project/requirements.txt
-RUN /project/bin/pip install -r /project/requirements.txt
+RUN pip install -r /project/requirements.txt
 {% if development %}
 COPY config/requirements.dev.txt /project/requirements.dev.txt
-RUN /project/bin/pip install -r /project/requirements.dev.txt
+RUN pip install -r /project/requirements.dev.txt
 RUN mkdir /project/.vscode
 COPY config/vscode.settings.json /project/.vscode/settings.json
 {% endif %}
