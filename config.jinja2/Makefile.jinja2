@@ -17,7 +17,7 @@ install: dependencies init node up update cashtable theme
 up:
 	docker-compose up -d --scale wsgi={{ scale }}
         {% if spoolers %}
-	mkdir project/{{ projectname }}/{{ projectname }}/spooler
+	mkdir -p project/{{ projectname }}/{{ projectname }}/spooler
         {% endif %}
 	{% if not development %}
         {% if spoolers %}
