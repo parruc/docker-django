@@ -1,0 +1,9 @@
+.config
+bin/
+config/
+db/
+include/
+lib/
+media/
+project/
+static/
