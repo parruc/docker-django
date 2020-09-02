@@ -7,3 +7,4 @@ lib/
 media/
 project/
 static/
+pyvenv.cfg
