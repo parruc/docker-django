@@ -15,6 +15,13 @@ cp db/dump.sql /tmp/backup_{{ projectname }}/
 {% endfor %}
 cp .config /tmp/backup_{{ projectname }}/
 cd /tmp/backup_{{ projectname }}
+{% for backupignore in backupignores %}
+    {% if loop.first %}
+        echo {{backupignore}} > .gitignore
+    {% else %}
+        echo {{backupignore}} >> .gitignore
+    {% endif %}
+{% endfor %}
 git add . --all
 git commit -am "backup {{ projectname }}"
 git push origin master
