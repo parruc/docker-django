@@ -2,6 +2,7 @@
 bin/
 config/
 db/
+redis/
 include/
 lib/
 media/

@@ -65,3 +65,6 @@ services:
   redis:
     image: redis
     restart: always
+    entrypoint: redis-server --appendonly yes
+    volumes:
+      - ./redis:/data

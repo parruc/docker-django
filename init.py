@@ -148,6 +148,8 @@ parser.add_argument('-br', '--backuprepository', help='backup git repo',
                                                          None))
 parser.add_argument('-bf', '--backupfolders', help='Folders to backup', required=False,
                     default=defaults.get("backupfolders", []))
+parser.add_argument('-bi', '--backupignores', help='Folders to ignore during backup', required=False,
+                    default=defaults.get("backupignores", []))
 parser.add_argument('-cm', '--cronjobminute', help='backup croonjob minute',
                     required=False, default=defaults.get("cronjobminute",
                                                          "30"))
