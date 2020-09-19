@@ -55,8 +55,9 @@ def create_link_if_not_exist(source, dest):
         if e.errno == errno.EEXIST:
             logger.info("Cannot create link because file '%s' already exists",
                         dest)
-        logger.warning("Could not create symlink: from %s to %s with error %s",
-                       source, dest, e)
+        else:
+            logger.warning("Could not create symlink: from %s to %s with error %s",
+                           source, dest, e)
 
 
 def create_nginx_links(file, hostname):
@@ -84,13 +85,13 @@ parser.add_argument('-hn', '--hostname', help='Host name',
                     required=False)
 parser.add_argument('-pe', '--portexternal',
                     help='Http external nginx port number publically visible',
-                    default=defaults.get("portexternal", "80"), required=False)
+                    default=defaults.get("portexternal", 80), required=False)
 parser.add_argument('-pes', '--portexternalssl',
                     help='Https external nginx port number publically visible',
-                    default=defaults.get("portexternalssl", "443"), required=False)
+                    default=defaults.get("portexternalssl", 443), required=False)
 parser.add_argument('-pi', '--portinternal',
                     help='Http internal nginx port number publically visible',
-                    default=defaults.get("portinternal", "7080"), required=False)
+                    default=defaults.get("portinternal", 7080), required=False)
 parser.add_argument('-cp', '--certificatespath',
                     help='Use this parameter for certificates path',
                     default=defaults.get("certificatespath", ""),

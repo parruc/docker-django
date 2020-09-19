@@ -23,6 +23,8 @@ services:
     build:
       context: .
       dockerfile: config/django.dockerfile
+    ports:
+      - "127.0.0.1:{{portinternal}}-{{portinternal + scale}}:8000"
     image: python:{{projectname}}
     command: /project/django.entrypoint.wsgi.sh
     working_dir: /project/{{projectname}}
@@ -44,23 +46,25 @@ services:
 {% if async %}
   asgi: 
     <<: *django
+    ports:
+      - "127.0.0.1:{{portinternal}}-{{portinternal + scale + 1}}:8000"
     command: /project/django.entrypoint.asgi.sh
 {% endif %}
 
-  web:
-    depends_on:
-      - wsgi
-{% if async %}
-      - asgi
-{% endif %}
-    image: nginx:latest
-    ports:
-      - "127.0.0.1:{{portinternal}}:80"
-    volumes:
-      - ./static:/var/www/static
-      - ./media:/var/www/media
-      - ./config/nginx.internal.conf:/etc/nginx/conf.d/default.conf
-    restart: always
+#   web:
+#     depends_on:
+#       - wsgi
+# {% if async %}
+#       - asgi
+# {% endif %}
+#     image: nginx:latest
+#     ports:
+#       - "127.0.0.1:{{portinternal}}:80"
+#     volumes:
+#       - ./static:/var/www/static
+#       - ./media:/var/www/media
+#       - ./config/nginx.internal.conf:/etc/nginx/conf.d/default.conf
+#     restart: always
 
   redis:
     image: redis
