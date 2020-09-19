@@ -3,33 +3,41 @@
 chdir=/project/{{projectname}}
 # python path to the wsgi module, check if you have one
 module={{projectname}}.wsgi:application
+socket=:8000
 # this switch tells uwsgi to spawn a master process,
 # that will dynamically spawn new child processes for
 # server requests
-master
-vacuum
-reload-on-exception
-workers = 4
-{% for spooler in spoolers %}
-import = {{projectname}}.{{spooler}}
-spooler = {{projectname}}/{{spooler}}
-{% if loop.last %}spooler-processes = {{ spoolers|length }}{% endif %}
-{% endfor %}
-# uwsgi stores the pid of your master process here
-pidfile=/project/uwsgi.pid
-# this is where you need to point nginx to,
-# if you chose to put this in project home make
-# sure the home dir is readable and executable by
-# nginx
-socket=:8000
+strict = true
+master = true
+vacuum = true                        ; Delete sockets during shutdown
+single-interpreter = true
+die-on-term = true                   ; Shutdown when receiving SIGTERM (default is respawn)
+need-app = true
+
+processes = 2
+disable-logging = true               ; Disable built-in logging 
+log-4xx = true                       ; but log 4xx's anyway
+log-5xx = true                       ; and 5xx's
+
+harakiri = 60                        ; forcefully kill workers after 60 seconds
+max-requests = 1000                  ; Restart workers after this many requests
+max-worker-lifetime = 3600           ; Restart workers after this many seconds
+reload-on-rss = 2048                 ; Restart workers after this much resident memory
+worker-reload-mercy = 60             ; How long to wait before forcefully killing workers
+touch-reload=/project/{{ projectname }}/{{ projectname }}/settings.py
+
+{% if spooler %}
+import = {{projectname}}.spooler
+spooler = {{projectname}}/spooler
+spooler-harakiri = 600
+spooler-processes = 1
+{% endif %}
+
 {% if development %}
 py-autoreload = 2
 honour-stdin
 {% else %}
 uid=www-data
 gid=www-data
-harakiri=30
-mule-harakiri = 600
-touch-reload=/project/{{ projectname }}/{{ projectname }}/settings.py
 {% endif %}
 
