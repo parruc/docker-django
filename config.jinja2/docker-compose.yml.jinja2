@@ -24,7 +24,7 @@ services:
       context: .
       dockerfile: config/django.dockerfile
     ports:
-      - "127.0.0.1:{{portinternal}}-{{portinternal + scale}}:8000"
+      - "127.0.0.1:{{portinternal}}-{{portinternal + scale - 1}}:8000"
     image: python:{{projectname}}
     command: /project/django.entrypoint.wsgi.sh
     working_dir: /project/{{projectname}}
