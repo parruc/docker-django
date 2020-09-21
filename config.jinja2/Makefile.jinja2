@@ -41,8 +41,7 @@ clearcache:
 	docker-compose exec redis redis-cli -n 1 FLUSHDB
 
 chown:
-	chown www-data:www-data static -R
-	chown www-data:www-data media -R
+	chown www-data:www-data {{ projectpath }}/www -R
 
 migrations:
 	docker-compose exec wsgi python manage.py makemigrations
