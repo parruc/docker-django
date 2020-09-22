@@ -47,7 +47,7 @@ services:
   asgi: 
     <<: *django
     ports:
-      - "127.0.0.1:{{portinternal + scale}}:8000"
+      - "127.0.0.1:{{portinternal + scale }}:8000"
     command: /project/django.entrypoint.asgi.sh
 {% endif %}
 

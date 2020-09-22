@@ -15,7 +15,7 @@ upstream wsgi_upstream_{{ projectname }} {
 }
 {% if async %}
 upstream asgi_upstream_{{ projectname }} {
-    server 127.0.0.1:{{ portinternal + scale + 1 }};
+    server 127.0.0.1:{{ portinternal + scale }};
 }
 {% endif %}
 
