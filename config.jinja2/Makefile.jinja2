@@ -13,13 +13,14 @@ projectfolder:
 	mkdir project/{{ projectname }} -p
 	cd project/{{ projectname }}; git clone {{ gitrepository }} .
 	cd project/{{ projectname }}; git checkout {{ gitbranch }}
+	sudo chown $$USER . -R
 
 init:
 	sudo ./init.py
-	chown $$USER . -R
-	service nginx reload
+	sudo chown $$USER . -R
+	sudo service nginx reload
 
-install: dependencies init virtualenv projectfolder node up update
+install: dependencies init down virtualenv projectfolder node up update
 
 up:
 	docker-compose up -d --scale wsgi={{ scale }}
