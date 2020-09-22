@@ -8,13 +8,13 @@ add_header X-Content-Type-Options "nosniff";
 # Redirect all www-less traffic to the www.site.com domain
 # (you could also do the opposite www -> non-www domain)
 
-upstream wsgi_upstream {
+upstream wsgi_upstream_{{ projectname }} {
   {% for s in range(scale) %}
     server 127.0.0.1:{{ portinternal + s }};
   {% endfor %}
 }
 {% if async %}
-upstream asgi_upstream {
+upstream asgi_upstream_{{ projectname }} {
     server 127.0.0.1:{{ portinternal + scale + 1 }};
 }
 {% endif %}
@@ -88,7 +88,7 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header Host $host;
         include uwsgi_params;
-        uwsgi_pass wsgi_upstream;
+        uwsgi_pass wsgi_upstream_{{ projectname }};
 
     }
 
@@ -99,7 +99,7 @@ server {
         proxy_set_header Connection "Upgrade";
         proxy_set_header Host $host;
         proxy_redirect off;
-        proxy_pass asgi_upstream;
+        proxy_pass asgi_upstream_{{ projectname }};
     }
     {% endif %}
 
