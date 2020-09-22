@@ -12,11 +12,11 @@ install: down projectfolder node up update
 
 up:
 	docker-compose up -d --scale wsgi={{ scale }}
-	{% if spoolers %}
+	{% if spooler %}
 	mkdir -p project/{{ projectname }}/{{ projectname }}/spooler
 	{% endif %}
 	{% if not development %}
-	{% if spoolers %}
+	{% if spooler %}
 	chown www-data:www-data project/{{ projectname }}/{{ projectname }}/spooler
 	{% endif %}
 	chown www-data:www-data www -R
