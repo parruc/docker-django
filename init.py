@@ -55,8 +55,9 @@ def create_link_if_not_exist(source, dest):
         if e.errno == errno.EEXIST:
             logger.info("Cannot create link because file '%s' already exists",
                         dest)
-        logger.warning("Could not create symlink: from %s to %s with error %s",
-                       source, dest, e)
+        else:
+            logger.warning("Could not create symlink: from %s to %s with error %s",
+                           source, dest, e)
 
 
 def create_nginx_links(file, hostname):
@@ -72,10 +73,11 @@ try:
     with open(".config", "r") as in_file:
         defaults = json.load(in_file)
         error_loading = False
-except:
+except Exception as ex:
     defaults = {}
     error_loading = True
-    logger.warning("Using empty default: could not load config file")
+    logger.error("Exiting: Error loading .config file: %s", ex)
+    exit()
 
 parser = argparse.ArgumentParser(description='Docker mariadb django nginx \
                                               stack configurator.')
@@ -84,13 +86,13 @@ parser.add_argument('-hn', '--hostname', help='Host name',
                     required=False)
 parser.add_argument('-pe', '--portexternal',
                     help='Http external nginx port number publically visible',
-                    default=defaults.get("portexternal", "80"), required=False)
+                    default=defaults.get("portexternal", 80), required=False)
 parser.add_argument('-pes', '--portexternalssl',
                     help='Https external nginx port number publically visible',
-                    default=defaults.get("portexternalssl", "443"), required=False)
+                    default=defaults.get("portexternalssl", 443), required=False)
 parser.add_argument('-pi', '--portinternal',
                     help='Http internal nginx port number publically visible',
-                    default=defaults.get("portinternal", "7080"), required=False)
+                    default=defaults.get("portinternal", 7080), required=False)
 parser.add_argument('-cp', '--certificatespath',
                     help='Use this parameter for certificates path',
                     default=defaults.get("certificatespath", ""),
@@ -111,6 +113,12 @@ parser.add_argument('-g', '--gis',
                     help="Use this parameter to add GIS support to postgres",
                     default=defaults.get("gis", False),
                     action='store_true')
+parser.add_argument('-gr', '--gitrepository',
+                    help="Project repository checkout",
+                    default=defaults.get("gitrepository", ""),)
+parser.add_argument('-gb', '--gitbranch',
+                    help="Project repository branch",
+                    default=defaults.get("gitbranch", "master"),)
 parser.add_argument('-l', '--libraries', help='apt requirements', required=False,
                     default=defaults.get("libraries", []))
 parser.add_argument('-r', '--requirements', help='Django app requirements', required=False,
@@ -135,9 +143,9 @@ parser.add_argument('-pv', '--pythonversion', help='Python version to use as bas
 parser.add_argument('-sc', '--secretkey', help='django project secret key',
                     required=False, default=defaults.get("secretkey",
                                                          get_random_string(50)))
-parser.add_argument('-sp', '--spoolers', help='add spool processes',
-                    required=False, default=defaults.get("spoolers",
-                                                         []))
+parser.add_argument('-sp', '--spooler', help='add spool process',
+                    required=False, default=defaults.get("spooler", False),
+                    action='store_true')
 parser.add_argument('-scale', '--scale', help='django instances number',
                     required=False, default=defaults.get("scale", 1)),
 

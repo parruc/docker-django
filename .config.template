@@ -1,0 +1,61 @@
+{
+    "async": false,
+    "backupfolders": [
+        "media/uploads"
+    ],
+    "backupignores": [],
+    "backuprepository": "",
+    "contentsecuritypolicy": "default-src 'self'; img-src 'self' data: *; style-src 'self' 'unsafe-inline' *.googleapis.com; font-src 'self' data: *.googleapis.com *.gstatic.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.googleapis.com *.googletagmanager.com *.google-analytics.com *.google.com *.gstatic.com *.cloudflare.com blob:; frame-src 'self' *.youtube.com *.msvdn.net *.mainstreaming.tv *.sli.do *.google.com; connect-src 'self' *.google-analytics.com *.unity3d.com; media-src 'self'",
+    "create": false,
+    "cronjobhour": "04",
+    "cronjobminute": "05",
+    "dbname": "???",
+    "dbuser": "???",
+    "development": false,
+    "gis": false,
+    "hostname": "???",
+    "libraries": [
+        "gettext"
+    ],
+    "portexternal": 80,
+    "portexternalssl": 443,
+    "portinternal": ???,
+    "projectname": "???",
+    "projectpath": "???",
+    "pythonversion": "3.8",
+    "requirements": [
+        "pyyaml",
+        "psycopg2-binary",
+        "Pillow",
+        "lxml",
+        "uvicorn",
+        "uwsgi",
+        "Django",
+        "channels",
+        "channels_redis",
+        "django-recaptcha",
+        "django-redis",
+        "django-autoslug",
+        "django-constance[redis]",
+        "django-modeltranslation>=0.13",
+        "django-imagekit",
+        "django-admin-sortable2",
+        "django-tinymce",
+        "premailer",
+        "pyjwt",
+        "rules"
+    ],
+    "requirementsdev": [
+        "django-debug-toolbar",
+        "flake8",
+        "pylint",
+        "pylint-django",
+        "isort"
+    ],
+    "scale": 4,
+    "smtphost": "",
+    "smtpuser": "",
+    "spooler": true,
+    "uploadlimit": "150",
+    "verbose": false
+}
