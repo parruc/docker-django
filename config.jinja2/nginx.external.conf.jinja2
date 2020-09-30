@@ -34,7 +34,11 @@ server {
 }
 
 server {
+    {% if portexternalssl == 443 %}
     listen {{portexternalssl}} ssl;
+    {% else %}
+    listen 127.0.0.1:{{portexternalssl}} ssl;
+    {% endif %}
     ssl_certificate {{ certificatespath }}/fullchain.pem;
     ssl_certificate_key {{ certificatespath }}/privkey.pem;
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -45,8 +49,11 @@ server {
 }
 
 server {
-        listen {{ portexternalssl}} ssl;
-
+        {% if portexternalssl == 443 %}
+        listen {{portexternalssl}} ssl;
+        {% else %}
+        listen 127.0.0.1:{{portexternalssl}} ssl;
+        {% endif %}
         ssl_certificate {{ certificatespath }}/fullchain.pem;
         ssl_certificate_key {{ certificatespath }}/privkey.pem;
         ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
