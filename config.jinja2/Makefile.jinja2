@@ -3,9 +3,9 @@ node:
 
 projectfolder:
 	rm -Rf project
-	mkdir -p {{ projectpath }}
-	cd {{ prjectpath }}; git clone {{ gitrepository }} .
-	cd {{ projectpath }}; git checkout {{ gitbranch }}
+	mkdir -p project/{{ projectname }}
+	cd project/{{ projectname }}; git clone {{ gitrepository }} .
+	cd project/{{ projectname }}; git checkout {{ gitbranch }}
 	{% if spooler %}
 	mkdir -p project/{{ projectname }}/{{ projectname }}/spooler
 	{% endif %}
@@ -38,11 +38,11 @@ clearcache:
 
 chown:
 	{% if development %}
-	sudo chown -R `id -un` {{ projectpath }}
+	sudo chown -R `id -un` .
 	{% else %}
-	chown www-data:www-data {{ projectpath }}/www -R
+	chown www-data:www-data www -R
 	{% if spooler %}
-	chown www-data:www-data {{ projectpath }}/{{ projectname }}/spooler
+	chown www-data:www-data project/{{ projectname }}/{{ projectname }}/spooler
 	{% endif %}
 	{% endif %}
 
