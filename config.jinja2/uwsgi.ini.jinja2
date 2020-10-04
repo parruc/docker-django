@@ -11,8 +11,6 @@ strict = true
 master = true
 vacuum = true                        ; Delete sockets during shutdown
 single-interpreter = true
-die-on-term = true                   ; Shutdown when receiving SIGTERM (default is respawn)
-need-app = true
 
 processes = 2
 disable-logging = true               ; Disable built-in logging 
@@ -34,9 +32,12 @@ spooler-processes = 1
 {% endif %}
 
 {% if development %}
+reload-on-exception = true
 py-autoreload = 2
 honour-stdin
 {% else %}
+need-app = true
+die-on-term = true                   ; Shutdown when receiving SIGTERM (default is respawn)
 uid=www-data
 gid=www-data
 {% endif %}
