@@ -12,12 +12,14 @@ master = true
 vacuum = true                        ; Delete sockets during shutdown
 single-interpreter = true
 
+buffer-size=8192
 processes = 2
 disable-logging = true               ; Disable built-in logging 
 log-4xx = true                       ; but log 4xx's anyway
 log-5xx = true                       ; and 5xx's
 
 harakiri = 60                        ; forcefully kill workers after 60 seconds
+listen = 1000                        ; queue size
 max-requests = 10000                 ; Restart workers after this many requests
 max-worker-lifetime = 3600           ; Restart workers after this many seconds
 reload-on-rss = 2048                 ; Restart workers after this much resident memory
