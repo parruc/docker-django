@@ -7,6 +7,12 @@ services:
       context: .
       dockerfile: config/postgres.dockerfile
     image: postgres:{{projectname}}
+    sysctls:
+      net.core.somaxconn: 1024
+    ulimits:
+      nofile:
+        soft: 2048
+        hard: 4096
     command: postgres -c max_connections=250 -c shared_buffers=75MB
     volumes:
       - ./db:/var/lib/postgresql/data
@@ -40,8 +46,8 @@ services:
       - ./www/media:/var/www/media
       - ./config/basesettings.py:/project/{{projectname}}/{{projectname}}/basesettings.py
 {% if development %}
-      - ./vscode/server-extensions:/root/.vscode-server/extensions
-      - ./vscode/server-insiders-extensions:/root/.vscode-server-insiders/extensions
+      ./vscode/server-extensions:/root/.vscode-server/extensions
+      ./vscode/server-insiders-extensions:/root/.vscode-server-insiders/extensions
     stdin_open: true
     tty: true
 {% endif %}
@@ -50,27 +56,33 @@ services:
   asgi: 
     <<: *django
     ports:
-      - "127.0.0.1:{{portinternal + scale }}:8000"
+      "127.0.0.1:{{portinternal + scale }}:8000"
     command: /project/django.entrypoint.asgi.sh
 {% endif %}
 
 #   web:
 #     depends_on:
-#       - wsgi
+#       wsgi
 # {% if async %}
-#       - asgi
+#       asgi
 # {% endif %}
 #     image: nginx:latest
 #     ports:
-#       - "127.0.0.1:{{portinternal}}:80"
+#       "127.0.0.1:{{portinternal}}:80"
 #     volumes:
-#       - ./static:/var/www/static
-#       - ./media:/var/www/media
-#       - ./config/nginx.internal.conf:/etc/nginx/conf.d/default.conf
+#       ./static:/var/www/static
+#       ./media:/var/www/media
+#       ./config/nginx.internal.conf:/etc/nginx/conf.d/default.conf
 #     restart: always
 
   redis:
     image: redis
+    sysctls:
+      net.core.somaxconn: 1024
+    ulimits:
+      nofile:
+        soft: 2048
+        hard: 4096
     restart: always
     entrypoint: redis-server --appendonly yes
     volumes:
