@@ -1,35 +1,31 @@
-dependencies:
-	sudo apt install python3 python3-dev python3-virtualenv nodejs npm
-
 node:
 	cd project/{{ projectname }}/layout; npm install
 
-cashtable:
-	 docker-compose exec wsgi python manage.py createcachetable 
-
-init:
-	sudo ./init.py
-	chown $$USER . -R
-	service nginx reload
-
-install: dependencies init node up update cashtable theme
-
-up:
-	docker-compose up -d --scale wsgi={{ scale }}
-	{% if spoolers %}
+projectfolder:
+	rm -Rf project
+	mkdir -p project/{{ projectname }}
+	cd project/{{ projectname }}; git clone {{ gitrepository }} .
+	cd project/{{ projectname }}; git checkout {{ gitbranch }}
+	{% if spooler %}
 	mkdir -p project/{{ projectname }}/{{ projectname }}/spooler
 	{% endif %}
-	{% if not development %}
-	{% if spoolers %}
-	chown www-data:www-data project/{{ projectname }}/{{ projectname }}/spooler
-	{% endif %}
-	chown www-data:www-data www -R
-	{% endif %}
+
+install: down projectfolder node up update
+
+scale:
+	docker-compose up -d --scale wsgi={{ scale }}
+
+build:
+	docker-compose build wsgi{% if async %} asgi{% endif %}
+
+up: scale chown
 
 down:
 	docker-compose down
 
 recreate: down up
+
+rebuild: down chown build up
 
 restart:
 	docker-compose restart
@@ -41,8 +37,14 @@ clearcache:
 	docker-compose exec redis redis-cli -n 1 FLUSHDB
 
 chown:
-	chown www-data:www-data static -R
-	chown www-data:www-data media -R
+	{% if development %}
+	sudo chown -R `id -un` .
+	{% else %}
+	chown www-data:www-data www -R
+	{% if spooler %}
+	chown www-data:www-data project/{{ projectname }}/{{ projectname }}/spooler
+	{% endif %}
+	{% endif %}
 
 migrations:
 	docker-compose exec wsgi python manage.py makemigrations
@@ -65,7 +67,7 @@ theme: node
 fixtures:
 	docker-compose exec wsgi python manage.py loaddata initial_data
 
-update: pull migrate fixtures messages theme 
+update: pull migrate fixtures messages theme
 {% else %}
 theme: node
 	cd project/{{ projectname }}/layout; npm run build
@@ -74,13 +76,14 @@ theme: node
 fixtures:
 	echo "Skipping fixtures in production"
 
-update: pull migrate fixtures messages theme chown clearcache restart 
+update: pull migrate fixtures messages theme chown clearcache reload
 {% endif %}
 
 pull:
 	cd project/{{ projectname }}; git pull
 
-update: pull migrate fixtures messages theme reload clearcache
-
 logs:
 	docker-compose logs -f --timestamp --tail=100
+
+superuser:
+	docker-compose exec wsgi python manage.py createsuperuser

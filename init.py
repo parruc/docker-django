@@ -73,10 +73,11 @@ try:
     with open(".config", "r") as in_file:
         defaults = json.load(in_file)
         error_loading = False
-except:
+except Exception as ex:
     defaults = {}
     error_loading = True
-    logger.warning("Using empty default: could not load config file")
+    logger.error("Exiting: Error loading .config file: %s", ex)
+    exit()
 
 parser = argparse.ArgumentParser(description='Docker mariadb django nginx \
                                               stack configurator.')
@@ -112,6 +113,12 @@ parser.add_argument('-g', '--gis',
                     help="Use this parameter to add GIS support to postgres",
                     default=defaults.get("gis", False),
                     action='store_true')
+parser.add_argument('-gr', '--gitrepository',
+                    help="Project repository checkout",
+                    default=defaults.get("gitrepository", ""),)
+parser.add_argument('-gb', '--gitbranch',
+                    help="Project repository branch",
+                    default=defaults.get("gitbranch", "master"),)
 parser.add_argument('-l', '--libraries', help='apt requirements', required=False,
                     default=defaults.get("libraries", []))
 parser.add_argument('-r', '--requirements', help='Django app requirements', required=False,
