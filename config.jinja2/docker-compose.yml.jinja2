@@ -46,8 +46,8 @@ services:
       - ./www/media:/var/www/media
       - ./config/basesettings.py:/project/{{projectname}}/{{projectname}}/basesettings.py
 {% if development %}
-      ./vscode/server-extensions:/root/.vscode-server/extensions
-      ./vscode/server-insiders-extensions:/root/.vscode-server-insiders/extensions
+      - ./vscode/server-extensions:/root/.vscode-server/extensions
+      - ./vscode/server-insiders-extensions:/root/.vscode-server-insiders/extensions
     stdin_open: true
     tty: true
 {% endif %}
