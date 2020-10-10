@@ -61,7 +61,7 @@ messages:
 {% if  development %}
 theme: node
 	cd project/{{ projectname }}/layout; npm run dev
-	docker-compose exec wsgi python manage.py collectstatic --noinput -l -i */report.html
+	docker-compose exec wsgi python manage.py collectstatic --noinput -l
 	cd project/{{ projectname }}/layout; npm run watch
 
 fixtures:
