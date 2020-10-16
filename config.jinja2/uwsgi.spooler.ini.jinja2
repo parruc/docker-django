@@ -3,22 +3,18 @@
 chdir=/project/{{projectname}}
 # python path to the wsgi module, check if you have one
 module={{projectname}}.wsgi:application
-socket=:8000
-# this switch tells uwsgi to spawn a master process,
-# that will dynamically spawn new child processes for
-# server requests
 strict = true
 master = true
 vacuum = true                        ; Delete sockets during shutdown
 single-interpreter = true
 
 buffer-size=8192
-processes = 1
+processes = 0
 #disable-logging = true               ; Disable built-in logging 
 #log-4xx = true                       ; but log 4xx's anyway
 #log-5xx = true                       ; and 5xx's
 
-listen = 1                           ; queue size
+listen = 0                           ; queue size
 touch-reload=/project/{{ projectname }}/{{ projectname }}/settings.py
 
 import = {{projectname}}.spooler
