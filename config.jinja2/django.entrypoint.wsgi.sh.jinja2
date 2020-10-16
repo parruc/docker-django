@@ -1,6 +1,2 @@
 #!/bin/bash
-if [ -f /project/{{projectname}}/entrypoint_hook.sh ]; then
-    /project/{{projectname}}/entrypoint_hook.sh
-fi &&\
-
 exec uwsgi --ini /project/uwsgi.ini

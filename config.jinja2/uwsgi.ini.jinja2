@@ -22,10 +22,7 @@ listen = 1000                        ; queue size
 touch-reload=/project/{{ projectname }}/{{ projectname }}/settings.py
 
 {% if spooler %}
-import = {{projectname}}.spooler
-spooler = {{projectname}}/spooler
-spooler-harakiri = 600
-spooler-processes = 1
+spooler-external = /project/{{projectname}}/{{projectname}}/spooler
 {% endif %}
 
 {% if development %}

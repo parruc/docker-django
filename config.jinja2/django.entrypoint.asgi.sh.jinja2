@@ -1,7 +1,4 @@
 #!/bin/bash
-if [ -f /project/{{projectname}}/entrypoint_hook.sh ]; then
-    /project/{{projectname}}/entrypoint_hook.sh
-fi &&\
 {% if development %}
   exec uvicorn {{projectname}}.asgi:application --reload --reload-dir /project/{{projectname}} --host 0.0.0.0 --log-level debug
 {% else %}

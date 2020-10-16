@@ -12,6 +12,5 @@ COPY config/vscode.settings.json /project/.vscode/settings.json
 {% endif %}
 COPY config/django.entrypoint.*.sh /project/
 RUN chmod u+x /project/django.entrypoint.*sh
-COPY config/uwsgi.ini /project/uwsgi.ini
 WORKDIR /project/{{projectname}}
 EXPOSE 8000

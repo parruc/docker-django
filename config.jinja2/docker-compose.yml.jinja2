@@ -45,11 +45,20 @@ services:
       - ./www/static:/var/www/static
       - ./www/media:/var/www/media
       - ./config/basesettings.py:/project/{{projectname}}/{{projectname}}/basesettings.py
+      - ./config/uwsgi.ini:/project/uwsgi.ini
 {% if development %}
       - ./vscode/server-extensions:/root/.vscode-server/extensions
       - ./vscode/server-insiders-extensions:/root/.vscode-server-insiders/extensions
     stdin_open: true
     tty: true
+{% endif %}
+
+{% if spooler %}
+  spooler:
+    <<: *django
+    ports: []
+    volumes:
+      - ./config/uwsgi.spooler.ini:/project/uwsgi.ini
 {% endif %}
 
 {% if async %}
