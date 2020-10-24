@@ -13,7 +13,7 @@
     "dbuser": "???",
     "development": false,
     "gis": false,
-    "gitbranch": "master",
+    "gitbranch": "????",
     "gitrepository": "git@gitlab.com:parruc/virtualexhibit.git",
     "hostname": "???",
     "libraries": [
