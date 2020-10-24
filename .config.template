@@ -21,7 +21,6 @@
     "portexternalssl": 443,
     "portinternal": ???,
     "projectname": "???",
-    "projectpath": "???",
     "pythonversion": "3.8",
     "requirements": [
         "pyyaml",
