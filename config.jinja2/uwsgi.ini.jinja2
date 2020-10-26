@@ -14,7 +14,6 @@ single-interpreter = true
 
 buffer-size=8192
 processes = 2
-disable-logging = true               ; Disable built-in logging 
 log-4xx = true                       ; but log 4xx's anyway
 log-5xx = true                       ; and 5xx's
 
@@ -30,6 +29,7 @@ reload-on-exception = true
 py-autoreload = 2
 honour-stdin = true
 {% else %}
+disable-logging = true               ; Disable built-in logging 
 worker-reload-mercy = 60             ; How long to wait before forcefully killing workers
 reload-on-rss = 2048                 ; Restart workers after this much resident memory
 max-requests = 10000                 ; Restart workers after this many requests
