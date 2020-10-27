@@ -5,7 +5,19 @@ projectfolder:
 	rm -Rf project
 	mkdir -p project/{{ projectname }}
 	cd project/{{ projectname }}; git clone {{ gitrepository }} .
-	cd project/{{ projectname }}; git checkout {{ gitbranch }}
+	branchexists=$(git branch --list {{ gitbranch }})
+	@if [ -z "$$branchexists" ] ; \
+	then \
+        echo "Branch {{ gitbranch }} exists, checking it out"; \
+	cd project/{{ projectname }}; git checkout {{ gitbranch }} ; \
+	else \
+        echo "Branch {{ gitbranch }} does not exists, creating it"; \
+	cd project/{{ projectname }}; git branch {{ gitbranch }} ; \
+	cd project/{{ projectname }}; mv wishtobethere {{ projectname }} ; \
+	cd project/{{ projectname }}; mv .git .. ; \
+	cd project/{{ projectname }}; grep -rl wishtobethere . | xargs sed -i 's/wishtobethere/{{ projectname }}/g' ; \
+	cd project/{{ projectname }}; mv ../.git . ; \
+        fi
 	{% if spooler %}
 	mkdir -p project/{{ projectname }}/{{ projectname }}/spooler
 	{% endif %}
