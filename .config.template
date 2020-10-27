@@ -55,6 +55,7 @@
     "scale": 4,
     "smtphost": "",
     "smtpuser": "",
+    "smtppassword": "",
     "spooler": true,
     "uploadlimit": "150",
     "verbose": false
