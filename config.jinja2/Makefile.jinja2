@@ -9,7 +9,7 @@ projectfolder:
 	@if [ -z "$$branchexists" ] ; \
 	then \
         echo "Branch {{ gitbranch }} exists, checking it out"; \
-	cd project/{{ projectname }}; git checkout {{ gitbranch }} ; \
+	cd project/{{ projectname }}; git checkout {{ gitbranch }} -- ; \
 	else \
         echo "Branch {{ gitbranch }} does not exists, creating it"; \
 	cd project/{{ projectname }}; git branch {{ gitbranch }} ; \
