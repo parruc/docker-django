@@ -1,5 +1,5 @@
 node:
-	cd project/{{ projectname }}/layout; npm install
+	docker-compose run --rm --name {{projectname}}_theme_1 -w /project/{{ projectname}}/layout wsgi npm install
 
 projectfolder:
 	rm -Rf project
@@ -72,9 +72,8 @@ messages:
 
 {% if  development %}
 theme: node
-	cd project/{{ projectname }}/layout; npm run dev
+	docker-compose run --rm wsgi uwsgi --py manage.py --pyargv compilethemes -vvv --ini ../uwsgi.ini
 	docker-compose exec wsgi python manage.py collectstatic --noinput -l
-	cd project/{{ projectname }}/layout; npm run watch
 
 fixtures:
 	docker-compose exec wsgi python manage.py loaddata initial_data
@@ -82,7 +81,7 @@ fixtures:
 update: pull migrate fixtures messages theme
 {% else %}
 theme: node
-	cd project/{{ projectname }}/layout; npm run build
+	docker-compose run --rm wsgi uwsgi --py manage.py --pyargv compilethemes -vvv --ini ../uwsgi.ini
 	docker-compose exec wsgi python manage.py collectstatic --noinput
 
 fixtures:
