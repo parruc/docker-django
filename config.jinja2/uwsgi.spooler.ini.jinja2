@@ -19,7 +19,8 @@ touch-reload=/project/{{ projectname }}/{{ projectname }}/settings.py
 
 import = {{projectname}}.spooler
 spooler = /project/{{projectname}}/{{projectname}}/spooler
-spooler-harakiri = 600
+spooler-chdir=/project/{{projectname}}
+spooler-harakiri = 7200
 spooler-processes = 2
 spooler-frequency = 2
 
@@ -29,9 +30,6 @@ py-autoreload = 2
 honour-stdin = true
 {% else %}
 worker-reload-mercy = 60             ; How long to wait before forcefully killing workers
-reload-on-rss = 2048                 ; Restart workers after this much resident memory
-need-app = true
-die-on-term = true                   ; Shutdown when receiving SIGTERM (default is respawn)
 uid=www-data
 gid=www-data
 die-on-term = true                   ; Shutdown when receiving SIGTERM (default is respawn)
