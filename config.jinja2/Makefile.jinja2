@@ -73,7 +73,7 @@ messages:
 {% if  development %}
 theme: node
 	docker-compose run --rm --name {{projectname}}_theme_1 -w /project/{{ projectname}} wsgi uwsgi --ini ../uwsgi.ini --py manage.py --pyargv="compilethemes --command=dev --domain=wishtobethere.loc -v 3"
-	docker-compose run --rm --name {{projectname}}_theme_1 -w /project/{{ projectname}} wsgi uwsgi --ini ../uwsgi.ini --py manage.py --pyargv="compilethemes --command=watch --doamin=wishtobethere.loc -v 3"
+	docker-compose run --rm --name {{projectname}}_theme_1 -w /project/{{ projectname}} wsgi uwsgi --ini ../uwsgi.ini --py manage.py --pyargv="compilethemes --command=watch --domain=wishtobethere.loc -v 3"
 
 fixtures:
 	docker-compose exec wsgi python manage.py loaddata initial_data
