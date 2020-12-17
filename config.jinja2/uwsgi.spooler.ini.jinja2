@@ -30,8 +30,6 @@ py-autoreload = 2
 honour-stdin = true
 {% else %}
 worker-reload-mercy = 60             ; How long to wait before forcefully killing workers
-uid=www-data
-gid=www-data
 die-on-term = true                   ; Shutdown when receiving SIGTERM (default is respawn)
 need-app = true
 {% endif %}
