@@ -3,5 +3,12 @@
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "wsgi",
 	"workspaceFolder": "/project/",
-	"extensions": ["ms-python.python", "ms-vscode.atom-keybindings", "mrorz.language-gettext", "Keno.uikit-3-snippets", "batisteo.vscode-django"]
+	"extensions": ["ms-python.python",
+                       "ms-vscode.atom-keybindings",
+                       "mrorz.language-gettext",
+                       "ms-python.vscode-pylance",
+                       "batisteo.vscode-django",
+                       "keno.uikit-3-snippets",
+                       "dbaeumer.vscode-eslint",
+                       "christian-kohler.npm-intellisense"]
 }
