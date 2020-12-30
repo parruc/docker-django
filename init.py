@@ -62,9 +62,9 @@ def create_link_if_not_exist(source, dest):
 
 def create_nginx_links(file, hostname):
     nginx_available = "/" + os.path.join("etc", "nginx", "sites-available",
-                                         hostname + ".conf")
+                                         hostname[1:] + ".conf")
     nginx_enabled = "/" + os.path.join("etc", "nginx", "sites-enabled",
-                                       hostname + ".conf")
+                                       hostname[1:] + ".conf")
     create_link_if_not_exist(file, nginx_available)
     create_link_if_not_exist(nginx_available, nginx_enabled)
 

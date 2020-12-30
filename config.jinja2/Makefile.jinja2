@@ -5,18 +5,18 @@ projectfolder:
 	rm -Rf project
 	mkdir -p project/{{ projectname }}
 	cd project/{{ projectname }}; git clone {{ gitrepository }} .
-	branchexists=$(git branch --list {{ gitbranch }})
-	@if [ -z "$$branchexists" ] ; \
+	cd project/{{ projectname }}; branchexists=`git branch -r --list origin/{{ gitbranch }}`; if [ -z "$$branchexists" ]; \
 	then \
-        echo "Branch {{ gitbranch }} exists, checking it out"; \
-	cd project/{{ projectname }}; git checkout {{ gitbranch }} ; \
-	else \
         echo "Branch {{ gitbranch }} does not exists, creating it"; \
-	cd project/{{ projectname }}; git branch {{ gitbranch }} ; \
-	cd project/{{ projectname }}; mv wishtobethere {{ projectname }} ; \
-	cd project/{{ projectname }}; mv .git .. ; \
-	cd project/{{ projectname }}; grep -rl wishtobethere . | xargs sed -i 's/wishtobethere/{{ projectname }}/g' ; \
-	cd project/{{ projectname }}; mv ../.git . ; \
+	git branch {{ gitbranch }} ; \
+	mv wishtobethere {{ projectname }} ; \
+	mv .git .. ; \
+	grep -rl wishtobethere . | xargs sed -i 's/wishtobethere/{{ projectname }}/g' ; \
+	mv ../.git . ; \
+	git switch {{ gitbranch }} ; \
+	else \
+        echo "Branch {{ gitbranch }} exists, checking it out"; \
+	git checkout {{ gitbranch }} -- ; \
         fi
 	{% if spooler %}
 	mkdir -p project/{{ projectname }}/{{ projectname }}/spooler
@@ -71,6 +71,10 @@ messages:
 	docker-compose exec wsgi python manage.py compilemessages
 
 {% if  development %}
+
+collectstatic:
+	docker-compose exec wsgi python manage.py collectstatic --noinput -l
+
 theme: node
 	docker-compose run --rm --name {{projectname}}_manage_1 -w /project/{{ projectname}} spooler uwsgi --ini ../uwsgi.ini --py manage.py --pyargv="compilethemes --command=dev --domain={{ hostname[1:] }} -v 3"
 	docker-compose run --rm --name {{projectname}}_manage_1 -w /project/{{ projectname}} spooler uwsgi --ini ../uwsgi.ini --py manage.py --pyargv="compilemanagethemes --command=watch --domain={{ hostname[1:] }} -v 3"
@@ -80,6 +84,10 @@ fixtures:
 
 update: pull migrate fixtures messages theme
 {% else %}
+
+collectstatic:
+	docker-compose exec wsgi python manage.py collectstatic --noinput
+
 theme: node
 	docker-compose run --rm --name {{projectname}}_manage_1 -w /project/{{ projectname}} spooler uwsgi --ini ../uwsgi.ini --py manage.py --pyargv="compilethemes --command=build -v 3"
 
