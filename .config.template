@@ -17,7 +17,9 @@
     "gitrepository": "git@gitlab.com:parruc/virtualexhibit.git",
     "hostname": "???",
     "libraries": [
-        "gettext"
+        "gettext",
+        "nodejs",
+        "npm"
     ],
     "portexternal": 80,
     "portexternalssl": 443,
