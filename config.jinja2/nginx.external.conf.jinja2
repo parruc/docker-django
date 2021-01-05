@@ -26,7 +26,7 @@ server {
         root /var/www/certbot/;
     }
     location / {
-        return 301 https://{{hostname}}$request_uri;
+        return 301 https://{{ hostname|trim(".") }}$request_uri;
     }
 }
 
@@ -54,10 +54,10 @@ server {
 {% endif %}
 
     add_header Content-Security-Policy "{{ contentsecuritypolicy }}";
-    server_name {{hostname}};
+    server_name {{ hostname }};
     root {{projectpath}}/www/;
-    access_log /var/log/nginx/{{hostname}}.access.log;
-    error_log /var/log/nginx/{{hostname}}.error.log;
+    access_log /var/log/nginx/{{ hostname|trim(".") }}.access.log;
+    error_log /var/log/nginx/{{ hostname|trim(".") }}.error.log;
     client_max_body_size {{ uploadlimit }}M;
 
     location / {

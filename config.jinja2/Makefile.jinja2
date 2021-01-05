@@ -18,6 +18,7 @@ projectfolder:
         echo "Branch {{ gitbranch }} exists, checking it out"; \
 	git checkout {{ gitbranch }} -- ; \
         fi
+	cd project/{{ projectname }}; ../../bin/pre-commit install
 	{% if spooler %}
 	mkdir -p project/{{ projectname }}/{{ projectname }}/spooler
 	{% endif %}
