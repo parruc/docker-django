@@ -51,7 +51,7 @@ clearcache:
 
 chown:
 	{% if development %}
-	sudo chown -R `id -un` .
+	sudo chown -R `id -un` www project -R
 	{% else %}
 	chown www-data:www-data www -R
 	{% if spooler %}
