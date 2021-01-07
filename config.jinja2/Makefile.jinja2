@@ -2,7 +2,7 @@ node:
 	docker-compose run --rm --name {{projectname}}_manage_1 -w /project/{{ projectname}}/layout spooler npm install
 
 projectfolder:
-	rm -Rf project
+	sudo rm -Rf project
 	mkdir -p project/{{ projectname }}
 	cd project/{{ projectname }}; git clone {{ gitrepository }} .
 	cd project/{{ projectname }}; branchexists=`git branch -r --list origin/{{ gitbranch }}`; if [ -z "$$branchexists" ]; \
@@ -31,7 +31,7 @@ scale:
 build:
 	docker-compose build wsgi{% if async %} asgi{% endif %}
 
-up: scale chown
+up: scale
 
 down:
 	docker-compose down
