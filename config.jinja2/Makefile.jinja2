@@ -59,7 +59,9 @@ chown:
 	{% endif %}
 	{% endif %}
 
-migrations:
+migrations: makemigrations chown
+
+makemigrations:
 	docker-compose exec wsgi python manage.py makemigrations
 
 migrate:
