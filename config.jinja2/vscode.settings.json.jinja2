@@ -8,10 +8,11 @@
         "**/__pycache__": true
     },
     "python.pythonPath": "/usr/local/bin/python",
+    "python.analysis.extraPaths": ["{{ projectname }}"],
     "python.linting.enabled": true,
     "python.linting.flake8Enabled": true,
     "python.linting.flake8Args": [
-        "--exclude: .+/migrations/"
+        "--exclude: .+/migrations/",
         "--max-line-length=119"
     ],
     "python.linting.pylintArgs": [
