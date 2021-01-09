@@ -10,6 +10,10 @@
     "python.pythonPath": "/usr/local/bin/python",
     "python.linting.enabled": true,
     "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": [
+        "--exclude: .+/migrations/"
+        "--max-line-length=119"
+    ],
     "python.linting.pylintArgs": [
 	"--load-plugins=pylint_django",
         "-d",
