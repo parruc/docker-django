@@ -21,6 +21,7 @@ projectfolder:
 	cd project/{{ projectname }}; ../../bin/pre-commit install
 	{% if spooler %}
 	mkdir -p project/{{ projectname }}/{{ projectname }}/spooler
+	mkdir -p project/{{ projectname }}/{{ projectname }}/tmp
 	{% endif %}
 
 install: down projectfolder node up update
