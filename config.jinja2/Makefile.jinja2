@@ -57,6 +57,7 @@ chown:
 	chown www-data:www-data www -R
 	{% if spooler %}
 	chown www-data:www-data project/{{ projectname }}/{{ projectname }}/spooler
+	chown www-data:www-data project/{{ projectname }}/{{ projectname }}/tmp
 	{% endif %}
 	{% endif %}
 
