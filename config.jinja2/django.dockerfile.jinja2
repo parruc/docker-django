@@ -8,7 +8,6 @@ RUN pip install -r /project/requirements.txt
 COPY config/requirements.dev.txt /project/requirements.dev.txt
 RUN pip install -r /project/requirements.dev.txt
 RUN mkdir /project/.vscode
-COPY config/vscode.settings.json /project/.vscode/settings.json
 {% endif %}
 COPY config/django.entrypoint.*.sh /project/
 RUN chmod u+x /project/django.entrypoint.*sh

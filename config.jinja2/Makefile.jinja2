@@ -21,6 +21,7 @@ projectfolder:
 	cd project/{{ projectname }}; ../../bin/pre-commit install
 	{% if spooler %}
 	mkdir -p project/{{ projectname }}/{{ projectname }}/spooler
+	mkdir -p project/{{ projectname }}/{{ projectname }}/tmp
 	{% endif %}
 
 install: down projectfolder node up update
@@ -56,6 +57,7 @@ chown:
 	chown www-data:www-data www -R
 	{% if spooler %}
 	chown www-data:www-data project/{{ projectname }}/{{ projectname }}/spooler
+	chown www-data:www-data project/{{ projectname }}/{{ projectname }}/tmp
 	{% endif %}
 	{% endif %}
 

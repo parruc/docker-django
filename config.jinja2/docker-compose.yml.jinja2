@@ -47,6 +47,7 @@ services:
       - ./config/basesettings.py:/project/{{projectname}}/{{projectname}}/basesettings.py
       - ./config/uwsgi.ini:/project/uwsgi.ini
 {% if development %}
+      - ./config/vscode.settings.json:/project/.vscode/settings.json
       - ./vscode/server-extensions:/root/.vscode-server/extensions
       - ./vscode/server-insiders-extensions:/root/.vscode-server-insiders/extensions
       - ./config/vscode.settings.json /project/.vscode/settings.json
