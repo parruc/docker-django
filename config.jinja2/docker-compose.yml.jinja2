@@ -49,6 +49,7 @@ services:
 {% if development %}
       - ./vscode/server-extensions:/root/.vscode-server/extensions
       - ./vscode/server-insiders-extensions:/root/.vscode-server-insiders/extensions
+      - ./config/vscode.settings.json /project/.vscode/settings.json
     stdin_open: true
     tty: true
 {% endif %}
