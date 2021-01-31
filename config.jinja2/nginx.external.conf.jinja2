@@ -21,10 +21,6 @@ upstream asgi_upstream_{{ projectname }} {
 server {
     listen {{ portexternal}};
     server_name {{ hostname }};
-    location ^~ /.well-known/acme-challenge/ {
-        default_type "text/plain";
-        root /var/www/certbot/;
-    }
     location / {
         return 301 https://{{hostname}}$request_uri;
     }
@@ -46,10 +42,6 @@ server {
 
 server {
     listen {{ portexternal }};
-    location ^~ /.well-known/acme-challenge/ {
-        default_type "text/plain";
-        root /var/www/certbot/;
-    }
 
 {% endif %}
 
