@@ -21,7 +21,7 @@ upstream asgi_upstream_{{ projectname }} {
 server {
     listen {{ portexternal}};
     server_name {{ hostname }};
-    location / {
+    location ^/(?!(.well-known/acme-challenge/) { 
         return 301 https://{{hostname}}$request_uri;
     }
 }
