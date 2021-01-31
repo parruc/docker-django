@@ -20,6 +20,8 @@ upstream asgi_upstream_{{ projectname }} {
 # TODO: OTTIMIZZARE LE CONFIGURAZIONI PER CERTBOT
 server {
     listen {{ portexternal}};
+    access_log /var/log/nginx/{{hostname}}.access.log;
+    error_log /var/log/nginx/{{hostname}}.error.log;
     server_name {{ hostname }};
     location ^/(?!(.well-known/acme-challenge/) { 
         return 301 https://{{hostname}}$request_uri;
