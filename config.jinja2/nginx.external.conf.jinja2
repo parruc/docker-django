@@ -9,6 +9,7 @@ upstream wsgi_upstream_{{ projectname }} {
   {% for s in range(scale) %}
     server 127.0.0.1:{{ portinternal + s }};
   {% endfor %}
+  least_conn;
 }
 {% if async %}
 upstream asgi_upstream_{{ projectname }} {
